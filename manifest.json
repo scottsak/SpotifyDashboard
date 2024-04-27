@@ -1,10 +1,10 @@
 {
+  "name": "Spotify Dashboard",
   "version": "1.0.0",
+  "description": "View your Spotify statistics and control your Spotify player",
   "manifest_version": 3,
-  "name": "React Chrome Extension",
-  "description": "This is a Chrome extension built with React and TypeScript",
-  "action": {
-    "default_popup": "js/index.html",
-    "default_title": "React Chrome Extension"
+  "author": "Caleb Elliott and Scott Sakurai",
+  "chrome_url_overrides": {
+    "newtab": "js/index.html"
   }
 }
