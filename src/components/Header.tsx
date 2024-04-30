@@ -1,7 +1,11 @@
-const Header = () => {
+import useBookmarks from "../hooks/useBookmarks"
 
+const Header = () => {
+  // console.log(chrome, 'chrome CE:TEST');
+  const { bookmarks } = useBookmarks()
+  console.log(bookmarks, 'bookmarks CE:TEST');
   return (
-    <h1 className="text-xl text-green-400 font-bold">Spotify App</h1>
+    <h1 className="text-xl text-primary font-bold">Spotif12332y App</h1>
   )
 }
 

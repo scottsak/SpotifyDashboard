@@ -6,5 +6,9 @@
   "author": "Caleb Elliott and Scott Sakurai",
   "chrome_url_overrides": {
     "newtab": "js/index.html"
-  }
+  },
+  "permissions": [
+    "bookmarks",
+    "topSites"
+  ]
 }
