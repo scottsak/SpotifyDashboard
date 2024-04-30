@@ -1,9 +1,9 @@
 import useBookmarks from "../hooks/useBookmarks"
 
-const Header = () => {
-  // console.log(chrome, 'chrome CE:TEST');
+
+type HeaderProps = {};
+const Header: React.FC<HeaderProps> = () => {
   const { bookmarks } = useBookmarks()
-  console.log(bookmarks, 'bookmarks CE:TEST');
   return (
     <h1 className="text-xl text-primary font-bold">Spotif12332y App</h1>
   )
