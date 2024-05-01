@@ -5,4 +5,5 @@ export type Bookmark = {
   index?: number;
   url?: string;
   children?: Bookmark[];
-};
+  faviconUrl?: string;
+}
