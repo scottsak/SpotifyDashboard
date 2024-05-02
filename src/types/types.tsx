@@ -4,6 +4,8 @@ export type Bookmark = {
   parentId?: string;
   index?: number;
   url?: string;
-  children?: Bookmark[];
+  children?: Array<Bookmark>;
   faviconUrl?: string;
 }
+
+export type NullOrUndefined = null | undefined
