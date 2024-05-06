@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Bookmark } from "../types/types";
+import { getFaviconUrl } from "../util/getFaviconUrl";
 
 type SetBookmarks = (bookmarks: Bookmark[] | null) => void;
 type SetError = (error: Boolean) => void;
@@ -10,16 +11,6 @@ type UseBookmarksReturnValue = {
   loading: Boolean
 }
 
-
-const getFaviconUrl = (bookmarkUrl: string | undefined): string => {
-  if (!bookmarkUrl) {
-    return '';
-  }
-  const url: URL = new URL(chrome.runtime.getURL('/_favicon/'));
-  url.searchParams.set('pageUrl', bookmarkUrl);
-  url.searchParams.set('size', '32');
-  return url.toString();
-};
 
 const getBookmarks = async (setBookmarks: SetBookmarks, setError: SetError, setLoading: SetLoading) => {
   try {
