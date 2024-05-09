@@ -38,5 +38,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
   } catch (err) {
     logError(message, err)
+    sendResponse({ error: err?.message || `Unknown error occurred for event: ${message}` })
   }
 });
