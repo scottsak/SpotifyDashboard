@@ -6,7 +6,8 @@ const autoprefixer = require('autoprefixer')
 
 module.exports = {
   entry: {
-    index: "./src/index.tsx"
+    index: "./src/index.tsx",
+    background: "./background.js"
   },
   mode: "production",
   module: {
@@ -45,6 +46,9 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: "manifest.json", to: "../manifest.json" },
+        { from: "background.js", to: "../background.js" },
+        { from: "popup.html", to: "../popup.html" },
+        { from: "popup.js", to: "../popup.js" },
       ],
     }),
     ...getHtmlPlugins(["index"]),
