@@ -1,6 +1,6 @@
 import Header from './components/Header';
 import Player from './components/Player/Player';
-import useCurrentlyPlaying from './hooks/useCurrentlyPlaying';
+import useCurrentlyPlaying from './hooks/spotifyHooks/useCurrentlyPlaying';
 import useToken from './hooks/useToken';
 
 function App() {
