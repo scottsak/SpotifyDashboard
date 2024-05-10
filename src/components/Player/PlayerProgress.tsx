@@ -28,7 +28,7 @@ const PlayerProgress: React.FC<PlayerProgressProps> = (props) => {
       {/* Hover Dot */}
       {(isHovered || dragging) && <div className="w-2 h-2 rounded-full bg-white absolute top-1/2 -translate-y-1/2" style={{ left: `calc(${progressPct}% - 3px)` }} />}
       {/* Progress Bar */}
-      <div className="h-1 rounded bg-white" style={{ width: `${progressPct}%` }} />
+      <div className="h-1 rounded bg-white transition-width transition-slowest ease" style={{ width: `${progressPct}%` }} />
     </div>
   )
 }

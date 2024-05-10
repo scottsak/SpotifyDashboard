@@ -13,6 +13,12 @@ const fetchSpotifyData = async (endpoint: string, token: string) => {
     throw new Error(`Spotify API error: ${response.status} - ${response.statusText}`);
   }
 
+  // Return empty object for no content responses
+  const { status }: { status: number } = response || {}
+  if (status === 204) {
+    return {}
+  }
+
   return response.json();
 };
 
