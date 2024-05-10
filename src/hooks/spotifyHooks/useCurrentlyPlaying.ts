@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { getCurrentlyPlaying } from '../../services/spotifyService'
 import useToken from '../useToken';
 
-
-
 const useCurrentlyPlaying = () => {
   const { token, error: tokenError } = useToken();
   const [currentlyPlaying, setCurrentlyPlaying] = useState<Record<string, any>>({});
