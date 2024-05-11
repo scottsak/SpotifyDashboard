@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react';
 import { getPlaybackState } from '../../services/spotifyService';
 import useToken from '../useToken';
 import { PlaybackState } from '../../types/types';
+import useTabFocus from '../useTabFocused';
 
 const PLAYING_INTERVAL: number = 1000
 const IDLE_INTERVAL: number = 5000
 
 const usePlaybackState = () => {
   const { token, error: tokenError } = useToken();
+  const tabFocused = useTabFocus()
   const [playbackState, setPlaybackState] = useState<PlaybackState | null>(null);
   const [error, setError] = useState<string>('');
-  const [intervalState, setIntervalState] = useState<number>(5000);
+  const [pollingInterval, setPollingInterval] = useState<number>(5000);
 
   useEffect(() => {
     let isMounted = true;
@@ -26,10 +28,9 @@ const usePlaybackState = () => {
         const playbackStateData = await getPlaybackState(token);
         if (isMounted) {
           setPlaybackState(playbackStateData);
-
           const newInterval = playbackStateData.is_playing ? PLAYING_INTERVAL : IDLE_INTERVAL;
-          if (intervalState !== newInterval) {
-            setIntervalState(newInterval);
+          if (pollingInterval !== newInterval) {
+            setPollingInterval(newInterval);
           }
         }
       } catch (error) {
@@ -41,8 +42,11 @@ const usePlaybackState = () => {
       }
     };
 
-    fetchPlaybackState();
-    intervalId = setInterval(fetchPlaybackState, intervalState);
+    // Stop polling if tab isn't focused
+    if (tabFocused) {
+      fetchPlaybackState();
+      intervalId = setInterval(fetchPlaybackState, pollingInterval);
+    }
 
     return () => {
       isMounted = false;
@@ -50,7 +54,7 @@ const usePlaybackState = () => {
         clearInterval(intervalId);
       }
     };
-  }, [token, intervalState]);
+  }, [token, pollingInterval, tabFocused]);
 
   return { playbackState, error: error || tokenError };
 };
