@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BackwardIcon, ForwardIcon, PauseIcon, PlayIcon } from '@heroicons/react/24/outline'
 import PlayerProgress from "./PlayerProgress";
 import { PlaybackState } from "../../types/types";
-import BodyText from "../StyledComponents/BodyText";
+import ScrollingText from "../ScrollingText";
 
 type PlayerProps = {
   playbackState: PlaybackState | null
@@ -10,7 +10,6 @@ type PlayerProps = {
 
 const Player: React.FC<PlayerProps> = ({ playbackState }) => {
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
-
   const {
     progress_ms: progress = 0,
     is_playing,
@@ -26,28 +25,31 @@ const Player: React.FC<PlayerProps> = ({ playbackState }) => {
   const progressPct = progress && duration ? (progress / duration) * 100 : 0;
   const smallImage = images?.find(({ height }) => height === 64);
   const artistNames = artists?.reduce((accum, { name: artistName }) => (`${accum && `${accum}, `}${artistName}`), '');
-  const handleImageLoad = (): void => {
-    setImageLoaded(true)
-  }
+
   return (
     <div className="grid-cols-12 grid-flow-row-dense grid bg-darker p-3 rounded min-h-[64px]">
-      <div className="col-span-3">
-        <div className="flex">
-          {!!smallImage &&
-            <img
-              className="object-contain mr-2"
-              src={smallImage.url}
-              alt={`album cover ${name}`}
-              onLoad={() => handleImageLoad()} // Move onLoad event handler here
-            />
-          }
-          {!imageLoaded &&
-            <div className="h-[64px] w-[64px] rounded bg-dark mr-2" />
-          }
-          {imageLoaded && <div>
-            <BodyText text={name} />
-            <p className="text-xs font-thin">{artistNames}</p>
-          </div>}
+      <div className="col-span-3 pr-2">
+        <div className="w-full" >
+          <div className="flex w-full">
+            {!!smallImage &&
+              <img
+                className="object-contain mr-2"
+                src={smallImage.url}
+                alt={`album cover ${name}`}
+                onLoad={() => setImageLoaded(true)}
+              />
+            }
+            {/* Show placeholder if image is not loaded */}
+            {!imageLoaded &&
+              <div className="h-[64px] w-[64px] rounded bg-dark mr-2" />
+            }
+            {imageLoaded &&
+              <div className="w-full">
+                <ScrollingText text={name} additionalClasses={'text-sm font-sans font-light'} />
+                <ScrollingText text={artistNames} additionalClasses={'text-xs font-thin'} />
+              </div>
+            }
+          </div>
         </div>
       </div>
       <div className="col-span-6 min-h-[64px] flex flex-col justify-center">
