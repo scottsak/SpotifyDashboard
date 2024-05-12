@@ -13,7 +13,7 @@ export type NullOrUndefined = null | undefined
 export interface PlaybackState {
   is_playing: boolean;
   progress_ms: number;
-  item: SpotifyItem;
+  item?: SpotifyItem;
 }
 
 export interface SpotifyItem {
