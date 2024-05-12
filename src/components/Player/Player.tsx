@@ -18,11 +18,11 @@ const Player: React.FC<PlayerProps> = ({ playbackState }) => {
   const {
     name = '',
     artists = [],
+    duration_ms: duration = 0,
     album: {
       images = []
     } = {}
   } = item || {}
-  const duration = playbackState?.item?.duration_ms ?? 0;
   const progressPct = progress && duration ? (progress / duration) * 100 : 0;
   const smallImage = images?.find(({ height }) => height === 64);
   const artistNames = artists?.reduce((accum, { name: artistName }) => (`${accum && `${accum}, `}${artistName}`), '');
@@ -67,6 +67,8 @@ const Player: React.FC<PlayerProps> = ({ playbackState }) => {
             <PlayerProgress
               progressPct={progressPct}
               setProgressPct={() => { }}
+              duration={duration}
+              progress={progress}
             />
           </div>
         </div>

@@ -9,7 +9,7 @@ const IDLE_INTERVAL: number = 5000
 
 const usePlaybackState = () => {
   const { token, error: tokenError } = useToken();
-  const tabFocused = useTabFocus()
+  const tabFocused: boolean = useTabFocus()
   const [playbackState, setPlaybackState] = useState<PlaybackState | null>(null);
   const [error, setError] = useState<string>('');
   const [pollingInterval, setPollingInterval] = useState<number>(5000);
