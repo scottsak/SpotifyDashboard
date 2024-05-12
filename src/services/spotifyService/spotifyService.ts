@@ -1,8 +1,12 @@
-import refreshAccessToken from "./refreshToken";
+import refreshAccessToken from './refreshToken';
 
 const BASE_URL = 'https://api.spotify.com/v1';
 
-const fetchSpotifyData = async (endpoint: string, token: string, retry: number = 0): Promise<any> => {
+const fetchSpotifyData = async (
+  endpoint: string,
+  token: string,
+  retry: number = 0
+): Promise<any> => {
   try {
     const response = await fetch(`${BASE_URL}/${endpoint}`, {
       headers: {
@@ -13,11 +17,16 @@ const fetchSpotifyData = async (endpoint: string, token: string, retry: number =
       // Refresh token and retry request if accessToken is expired
       if (response.status === 401 && retry < 2) {
         const { access_token, refresh_token } = await refreshAccessToken();
-        chrome.runtime.sendMessage({ type: 'setTokens', payload: { access_token, refresh_token } })
+        chrome.runtime.sendMessage({
+          type: 'setTokens',
+          payload: { access_token, refresh_token },
+        });
         return await fetchSpotifyData(endpoint, access_token, retry + 1);
       }
       // default throw
-      throw new Error(`Spotify API error: ${response.status} - ${response.statusText}`);
+      throw new Error(
+        `Spotify API error: ${response.status} - ${response.statusText}`
+      );
     }
     // Return empty object for no content responses
     const { status }: { status: number } = response || {};
@@ -37,4 +46,12 @@ export const getCurrentlyPlaying = async (token: string) => {
 
 export const getPlaybackState = async (token: string) => {
   return await fetchSpotifyData('me/player', token);
+};
+
+export const getUserTracks = async (token: string) => {
+  return await fetchSpotifyData('me/top/tracks', token);
+};
+
+export const getUserQueue = async (token: string) => {
+  return await fetchSpotifyData('me/player/queue', token);
 };

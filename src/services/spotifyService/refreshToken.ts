@@ -21,7 +21,7 @@ function getRefreshToken(): Promise<string> {
 }
 
 async function refreshAccessToken(): Promise<TokenResponse> {
-  const refreshToken: string = await getRefreshToken()
+  const refreshToken: string = await getRefreshToken();
   const requestBody = new URLSearchParams({
     grant_type: 'refresh_token',
     refresh_token: refreshToken || '',

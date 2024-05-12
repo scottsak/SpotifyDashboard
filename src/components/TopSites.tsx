@@ -1,5 +1,4 @@
 import React from 'react';
-import useBookmarks from '../hooks/useBookmarks';
 import { Bookmark } from '../types/types';
 import useTopSites, { TopSite } from '../hooks/useFrequentlyVisited';
 
@@ -11,7 +10,7 @@ const renderLinks = (links: Array<TopSite | Bookmark>) =>
       const { faviconUrl, url } = link || {};
       return (
         <a href={url} key={url} aria-label={`Link to ${url}`}>
-          <div className='bg-dark p-3 rounded-full mx-2'>
+          <div className='bg-black p-4 mb-4 justify-center'>
             <img
               src={faviconUrl}
               alt={`Favicon for ${url}`}
@@ -24,29 +23,14 @@ const renderLinks = (links: Array<TopSite | Bookmark>) =>
 
 const LinkSection: React.FC<{
   links: Array<TopSite | Bookmark>;
-  marginTop: boolean;
-}> = ({ links, marginTop }) => (
-  <div
-    className={`flex w-full justify-center bg-darker p-4 rounded ${
-      marginTop && 'mt-2'
-    }`}
-  >
-    <div className='flex md:w-3/4 w-full justify-around'>
-      {renderLinks(links)}
-    </div>
-  </div>
+}> = ({ links }) => (
+  <div className={`columns-${links.length}`}>{renderLinks(links)}</div>
 );
 
 type HeaderProps = {};
 const Header: React.FC<HeaderProps> = () => {
-  const { bookmarks } = useBookmarks();
   const { topSites } = useTopSites();
-  return (
-    <>
-      {/* {bookmarks && <LinkSection links={bookmarks} marginTop={false} />} */}
-      {topSites && <LinkSection links={topSites} marginTop={!!bookmarks} />}
-    </>
-  );
+  return <>{topSites && <LinkSection links={topSites} />}</>;
 };
 
 export default Header;
