@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getCurrentlyPlaying } from '../../services/spotifyService'
+import { getCurrentlyPlaying } from '../../services/spotifyService/spotifyService'
 import useToken from '../useToken';
 
 const useCurrentlyPlaying = () => {

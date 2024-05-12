@@ -11,7 +11,6 @@ const useToken = (): { token: string, error: string } => {
         if (!isMounted) {
           return;
         }
-
         if (response?.accessToken) {
           setToken(response.accessToken);
         } else if (response?.error) {

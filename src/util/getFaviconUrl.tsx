@@ -1,5 +1,3 @@
-
-
 export const getFaviconUrl = (urlToConvert: string | undefined): string => {
   if (!urlToConvert) {
     return '';

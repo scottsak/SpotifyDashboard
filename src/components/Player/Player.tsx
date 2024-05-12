@@ -13,14 +13,15 @@ const Player: React.FC<PlayerProps> = ({ playbackState }) => {
   const {
     progress_ms: progress = 0,
     is_playing,
-    item: {
-      name = '',
-      artists = [],
-      album: {
-        images = []
-      } = {}
-    } = {}
+    item
   } = playbackState || {};
+  const {
+    name = '',
+    artists = [],
+    album: {
+      images = []
+    } = {}
+  } = item || {}
   const duration = playbackState?.item?.duration_ms ?? 0;
   const progressPct = progress && duration ? (progress / duration) * 100 : 0;
   const smallImage = images?.find(({ height }) => height === 64);

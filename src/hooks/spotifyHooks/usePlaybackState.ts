@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getPlaybackState } from '../../services/spotifyService';
+import { getPlaybackState } from '../../services/spotifyService/spotifyService';
 import useToken from '../useToken';
 import { PlaybackState } from '../../types/types';
 import useTabFocus from '../useTabFocused';
