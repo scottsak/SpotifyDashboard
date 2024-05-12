@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
 const useTabFocus = (): boolean => {
-  const [isTabFocused, setIsTabFocused] = useState(true);
+  const [isTabFocused, setIsTabFocused] = useState<boolean>(true);
 
   useEffect(() => {
-    const handleVisibilityChange = () => {
+    const handleVisibilityChange = (): void => {
       setIsTabFocused(!document.hidden);
     };
 
