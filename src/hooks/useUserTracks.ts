@@ -28,7 +28,6 @@ const useUserTracks = () => {
 
     getUserTracks(token)
       .then((data) => {
-        // console.log('scotttest data', data);
         setUserTracks(data.items);
       })
       .catch((err) => {

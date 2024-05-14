@@ -6,16 +6,15 @@ import QueuedSongs from './Section3/QueuedSongs';
 type BodyProps = {};
 
 const Body: React.FC<BodyProps> = (props) => {
-  //   console.log('scotttest props row', props);
   return (
-    <div className='flex flex-wrap justify-center h-full w-screen'>
-      <div className='w-1/8 bg-black h-full'>
+    <div className='grid-cols-12 grid-flow-row-dense grid h-full w-screen p-0'>
+      <div className='col-span-1 bg-black h-full'>
         <TopSites />
       </div>
-      <div className='flex-1 g-gray-300 h-full overflow-y-auto'>
+      <div className='col-span-8 lg:col-span-8 g-gray-300 h-full overflow-y-auto'>
         {/* <Row /> */}
       </div>
-      <div className='w-1/4 bg-darker h-full overflow-y-auto'>
+      <div className='col-span-3 lg:col-span-3 bg-darker h-full overflow-y-auto'>
         <QueuedSongs />
       </div>
     </div>

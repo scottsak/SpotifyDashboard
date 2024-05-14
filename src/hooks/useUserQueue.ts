@@ -28,7 +28,6 @@ const useUserQueue = () => {
 
     getUserQueue(token)
       .then((data) => {
-        console.log('scotttest data', data);
         setUserQueue(data.queue);
       })
       .catch((err) => {

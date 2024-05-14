@@ -22,7 +22,6 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = (props) => {
-  // console.log('scotttest props', props);
   return (
     <div key={props.key} className='max-w-xs overflow-hidden shadow-lg'>
       <img

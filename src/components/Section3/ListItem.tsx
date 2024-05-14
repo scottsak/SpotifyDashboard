@@ -22,16 +22,15 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = (props) => {
-  // console.log('scotttest props', props);
   return (
-    <div className='flex p-4 rounded-md shadow-md'>
+    <div className='flex rounded-md shadow-md my-4'>
       <img
         src={((props.albumCover || [])[0] || {}).url || ''}
         alt='Album Cover'
-        className='w-24 h-24 mr-4'
+        className='w-20 h-20 mr-2'
       />
-      <div>
-        <h2 className='text-lg font-semibold'>{props.name}</h2>
+      <div className='min-w-0'>
+        <h2 className='text-base font-semibold truncate'>{props.name}</h2>
         <p className='text-gray-400'>
           {((props.artist || [])[0] || {}).name || ''}
         </p>

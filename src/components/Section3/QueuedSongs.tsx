@@ -20,10 +20,9 @@ interface QueuedSongsProps {}
 
 const QueuedSongs: React.FC<QueuedSongsProps> = () => {
   const { userQueue } = useUserQueue();
-  console.log('scotttest userQueue', userQueue);
   return (
-    <>
-      <h2 className='pl-4 text-lg font-semibold'>Playing Next: </h2>
+    <div className='p-4'>
+      <h2 className='text-lg font-semibold'>Playing Next: </h2>
       <DragDropContext
         onDragEnd={() => {
           console.log('finish drag');
@@ -65,7 +64,7 @@ const QueuedSongs: React.FC<QueuedSongsProps> = () => {
           )}
         </Droppable>
       </DragDropContext>
-    </>
+    </div>
   );
 };
 
