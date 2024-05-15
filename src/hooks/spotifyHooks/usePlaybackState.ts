@@ -8,13 +8,19 @@ import useTabFocus from '../useTabFocused';
 const PLAYING_INTERVAL: number = 1000
 const IDLE_INTERVAL: number = 5000
 
-const usePlaybackState = () => {
+const usePlaybackState = (): {
+  playbackState: any,
+  error?: string,
+  errorStatus?: number | null,
+  displayError: boolean,
+  needsTokenRefresh: boolean
+} => {
   const { token, error: tokenError } = useToken();
   const tabFocused: boolean = useTabFocus()
   const [playbackState, setPlaybackState] = useState<PlaybackState | null>(null);
+  const [pollingInterval, setPollingInterval] = useState<number>(5000);
   const [error, setError] = useState<string>('');
   const [errorStatus, setErrorStatus] = useState<number | null>(null)
-  const [pollingInterval, setPollingInterval] = useState<number>(5000);
   const [consecutiveErrors, setConsecutiveErrors] = useState<number>(0)
 
   useEffect(() => {
@@ -63,7 +69,13 @@ const usePlaybackState = () => {
     };
   }, [token, pollingInterval, tabFocused, consecutiveErrors]);
 
-  return { playbackState, error: error || tokenError, errorStatus, consecutiveErrors };
+  return {
+    playbackState,
+    error: error || tokenError,
+    errorStatus,
+    displayError: !!tokenError || consecutiveErrors > 2,
+    needsTokenRefresh: errorStatus === 401 && consecutiveErrors > 2
+  };
 };
 
 export default usePlaybackState;

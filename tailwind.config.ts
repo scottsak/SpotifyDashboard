@@ -11,7 +11,7 @@ module.exports = {
         'left': 'left'
       },
       colors: {
-        primary: '#37d760',
+        primary: '#1cd760',
         dark: '#252525',
         darker: '#121212',
         muted: '#b3b3b3'
