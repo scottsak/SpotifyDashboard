@@ -42,6 +42,16 @@ async function refreshAccessToken(): Promise<TokenResponse> {
   }
 
   const tokenResponse: TokenResponse = await response.json();
+
+  // No refreshToken in response, but doesn't seem to be an issue???
+  const { access_token, refresh_token } = tokenResponse || {}
+  chrome.runtime.sendMessage({
+    type: 'setTokens',
+    payload: {
+      token: access_token,
+      refreshToken: refresh_token
+    },
+  });
   return tokenResponse;
 }
 

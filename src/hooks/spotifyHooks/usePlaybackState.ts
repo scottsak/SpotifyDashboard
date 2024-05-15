@@ -4,6 +4,7 @@ import useToken from '../useToken';
 import { PlaybackState } from '../../types/types';
 import useTabFocus from '../useTabFocused';
 
+// Different interval lengths based on whether music is playing
 const PLAYING_INTERVAL: number = 1000
 const IDLE_INTERVAL: number = 5000
 
@@ -12,7 +13,9 @@ const usePlaybackState = () => {
   const tabFocused: boolean = useTabFocus()
   const [playbackState, setPlaybackState] = useState<PlaybackState | null>(null);
   const [error, setError] = useState<string>('');
+  const [errorStatus, setErrorStatus] = useState<number | null>(null)
   const [pollingInterval, setPollingInterval] = useState<number>(5000);
+  const [consecutiveErrors, setConsecutiveErrors] = useState<number>(0)
 
   useEffect(() => {
     let isMounted = true;
@@ -26,6 +29,10 @@ const usePlaybackState = () => {
 
       try {
         const playbackStateData = await getPlaybackState(token);
+        if (playbackStateData.error) {
+          setConsecutiveErrors(consecutiveErrors + 1)
+          setErrorStatus(playbackStateData.status)
+        }
         if (isMounted) {
           setPlaybackState(playbackStateData);
           const newInterval = playbackStateData.is_playing ? PLAYING_INTERVAL : IDLE_INTERVAL;
@@ -42,8 +49,8 @@ const usePlaybackState = () => {
       }
     };
 
-    // Stop polling if tab isn't focused
-    if (tabFocused) {
+    // Stop polling if tab isn't focused or there are 3 consecutive errors
+    if (tabFocused || consecutiveErrors > 2) {
       fetchPlaybackState();
       intervalId = setInterval(fetchPlaybackState, pollingInterval);
     }
@@ -54,9 +61,9 @@ const usePlaybackState = () => {
         clearInterval(intervalId);
       }
     };
-  }, [token, pollingInterval, tabFocused]);
+  }, [token, pollingInterval, tabFocused, consecutiveErrors]);
 
-  return { playbackState, error: error || tokenError };
+  return { playbackState, error: error || tokenError, errorStatus, consecutiveErrors };
 };
 
 export default usePlaybackState;
