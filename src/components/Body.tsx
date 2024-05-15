@@ -1,7 +1,7 @@
 import React from 'react';
 import Row from './Row/Row';
 import TopSites from './TopSites';
-import QueuedSongs from './Section3/QueuedSongs';
+import Section3 from './Section3/Section3';
 
 type BodyProps = {};
 
@@ -15,7 +15,7 @@ const Body: React.FC<BodyProps> = (props) => {
         {/* <Row /> */}
       </div>
       <div className='col-span-3 lg:col-span-3 bg-darker h-full overflow-y-auto'>
-        <QueuedSongs />
+        <Section3 />
       </div>
     </div>
   );
