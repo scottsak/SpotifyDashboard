@@ -13,7 +13,7 @@ interface Artists {
   [key: string]: any; // Allow any other properties
 }
 
-interface CardProps {
+interface ListItemProps {
   name: string;
   content: string;
   artist: Artists[];
@@ -21,7 +21,7 @@ interface CardProps {
   key: string;
 }
 
-const Card: React.FC<CardProps> = (props) => {
+const ListItem: React.FC<ListItemProps> = (props) => {
   return (
     <div className='flex rounded-md shadow-md my-4'>
       <img
@@ -39,4 +39,4 @@ const Card: React.FC<CardProps> = (props) => {
   );
 };
 
-export default Card;
+export default ListItem;
