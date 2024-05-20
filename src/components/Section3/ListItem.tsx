@@ -1,4 +1,5 @@
 import React from 'react';
+import ScrollingText from '../ScrollingText';
 
 interface AlbumCover {
   height: number;
@@ -29,11 +30,15 @@ const ListItem: React.FC<ListItemProps> = (props) => {
         alt='Album Cover'
         className='w-20 h-20 mr-2'
       />
-      <div className='min-w-0'>
-        <h2 className='text-base font-semibold truncate'>{props.name}</h2>
-        <p className='text-gray-400'>
-          {((props.artist || [])[0] || {}).name || ''}
-        </p>
+      <div className='w-full'>
+        <ScrollingText
+          text={props.name}
+          additionalClasses={'text-base font-semibold truncate'}
+        />
+        <ScrollingText
+          text={((props.artist || [])[0] || {}).name || ''}
+          additionalClasses={'text-gray-400'}
+        />
       </div>
     </div>
   );
