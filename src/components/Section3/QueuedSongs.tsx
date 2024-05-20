@@ -12,9 +12,9 @@ const QueuedSongs: React.FC<QueuedSongsProps> = () => {
       {userQueue.map((item) => (
         <ListItem
           key={item.id}
-          name={item.album.name}
-          content={item.album.id}
-          artist={item.album.artists}
+          name={item.name}
+          content={item.id}
+          artist={item.artists}
           albumCover={item.album.images}
         />
       ))}
