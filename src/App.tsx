@@ -12,7 +12,7 @@ function App() {
         promptLogin={true}
       />}
       <div className=' h-6/7 h-screen overflow-hidden'>
-        <Body />
+        <Body playbackState={playbackState} />
       </div>
       <div className='w-full flex justify-center h-1/7 border border-[#1b1b1b]'>
         <div className='w-full'>

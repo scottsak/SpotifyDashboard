@@ -1,12 +1,17 @@
 import React from 'react';
 import QueuedSongs from './QueuedSongs';
+import { PlaybackState } from '../../types/types';
 
-interface Section3Props {}
+interface Section3Props {
+  playbackState: PlaybackState
+}
 
-const Section3: React.FC<Section3Props> = () => {
+const Section3: React.FC<Section3Props> = ({ playbackState }) => {
   return (
     <div>
-      <QueuedSongs />
+      <QueuedSongs
+        playbackState={playbackState}
+      />
     </div>
   );
 };
