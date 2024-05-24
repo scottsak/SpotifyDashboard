@@ -24,6 +24,7 @@ export interface SpotifyItem {
   href: string;
   popularity: number;
   preview_url: string;
+  id: string;
 }
 
 export interface SpotifyAlbum {

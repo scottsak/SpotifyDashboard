@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from './Card';
-import useUserTracks from '../../hooks/useUserTracks';
+import useUserTracks from '../../hooks/spotifyHooks/useUserTracks';
 
 interface Album {
   id: string;
@@ -15,7 +15,7 @@ interface CardData {
   [key: string]: any; // Allow any other properties
 }
 
-interface RowOfCardsProps {}
+interface RowOfCardsProps { }
 
 const RowOfCards: React.FC<RowOfCardsProps> = () => {
   const { userTracks } = useUserTracks();
