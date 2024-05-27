@@ -5,7 +5,7 @@ import Alert from './components/Alert';
 import useWebPlayback from './hooks/spotifyHooks/useWebPlayback';
 
 function App() {
-  const { playbackState, displayError, needsTokenRefresh } = usePlaybackState();
+  const { playbackState, displayError, needsTokenRefresh, editPlayback } = usePlaybackState();
   const { player: webPlayback } = useWebPlayback()
   return (
     <div className='App bg-black text-white font-sans flex flex-col justify-between h-screen'>
@@ -18,7 +18,7 @@ function App() {
       </div>
       <div className='w-full flex justify-center h-1/7 border border-[#1b1b1b]'>
         <div className='w-full'>
-          <Player playbackState={playbackState} webPlayback={webPlayback} />
+          <Player playbackState={playbackState} webPlayback={webPlayback} editPlayback={editPlayback} />
         </div>
       </div>
     </div>

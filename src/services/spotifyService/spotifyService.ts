@@ -2,22 +2,24 @@ import refreshAccessToken from './refreshToken';
 
 const BASE_URL = 'https://api.spotify.com/v1';
 
-const fetchSpotifyData = async (
+const fetchSpotifyData = async ({ endpoint, token, retryCount = 0, method }: {
   endpoint: string,
   token: string,
-  retry: number = 0
-): Promise<any> => {
+  retryCount?: number,
+  method?: string | undefined
+}): Promise<any> => {
   try {
     const response = await fetch(`${BASE_URL}/${endpoint}`, {
+      ...!!method && { method },
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     if (!response.ok) {
       // Refresh token and retry request if accessToken is expired
-      if (response.status === 401 && retry < 2) {
+      if (response.status === 401 && retryCount < 2) {
         const { access_token } = await refreshAccessToken();
-        return await fetchSpotifyData(endpoint, access_token, retry + 1);
+        return await fetchSpotifyData({ endpoint, token: access_token, retryCount: retryCount + 1, method });
       }
       return { error: true, status: response.status, statusText: response.statusText }
     }
@@ -34,17 +36,33 @@ const fetchSpotifyData = async (
 };
 
 export const getCurrentlyPlaying = async (token: string) => {
-  return await fetchSpotifyData('me/player/currently-playing', token);
+  return await fetchSpotifyData({ endpoint: 'me/player/currently-playing', token });
 };
 
 export const getPlaybackState = async (token: string) => {
-  return await fetchSpotifyData('me/player', token);
+  return await fetchSpotifyData({ endpoint: 'me/player', token });
 };
 
 export const getUserTracks = async (token: string) => {
-  return await fetchSpotifyData('me/top/tracks', token);
+  return await fetchSpotifyData({ endpoint: 'me/top/tracks', token });
 };
 
 export const getUserQueue = async (token: string) => {
-  return await fetchSpotifyData('me/player/queue', token);
+  return await fetchSpotifyData({ endpoint: 'me/player/queue', token });
 };
+
+export const startPlayback = async (token: string) => {
+  return await fetchSpotifyData({ method: 'PUT', endpoint: 'me/player/play', token })
+}
+
+export const stopPlayback = async (token: string) => {
+  return await fetchSpotifyData({ method: 'PUT', endpoint: 'me/player/pause', token })
+}
+
+export const skipPlayback = async (token: string) => {
+  return await fetchSpotifyData({ method: 'POST', endpoint: 'me/player/next', token })
+}
+
+export const rewindPlayback = async (token: string) => {
+  return await fetchSpotifyData({ method: 'POST', endpoint: 'me/player/previous', token })
+}

@@ -3,18 +3,20 @@ import { BackwardIcon, ForwardIcon, PauseIcon, PlayIcon } from '@heroicons/react
 import PlayerProgress from "./PlayerProgress";
 import { PlaybackState } from "../../types/types";
 import ScrollingText from "../ScrollingText";
+import { EditPlaybackController } from "../../hooks/spotifyHooks/useEditPlayback";
 
 type PlayerProps = {
   playbackState: PlaybackState | null,
-  webPlayback: Spotify.Player | null
+  webPlayback: Spotify.Player | null,
+  editPlayback: EditPlaybackController
 };
 
-const Player: React.FC<PlayerProps> = ({ playbackState, webPlayback }) => {
+const Player: React.FC<PlayerProps> = ({ playbackState, editPlayback }) => {
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   const {
     progress_ms: progress = 0,
     is_playing,
-    item
+    item,
   } = playbackState || {};
   const {
     name = '',
@@ -24,6 +26,12 @@ const Player: React.FC<PlayerProps> = ({ playbackState, webPlayback }) => {
       images = []
     } = {}
   } = item || {}
+  const {
+    stopPlayback = () => { },
+    startPlayback = () => { },
+    skipPlayback = () => { },
+    rewindPlayback = () => { }
+  } = editPlayback
   const progressPct = progress && duration ? (progress / duration) * 100 : 0;
   const smallImage = images?.find(({ height }) => height === 64);
   const artistNames = artists?.reduce((accum, { name: artistName }) => (`${accum && `${accum}, `}${artistName}`), '');
@@ -57,10 +65,10 @@ const Player: React.FC<PlayerProps> = ({ playbackState, webPlayback }) => {
       <div className="col-span-6 min-h-[64px] flex flex-col justify-center">
         <div className="flex justify-center w-full">
           <div className="flex w-1/2 justify-between">
-            <BackwardIcon className="size-8 md:size-6 text-white hover:cursor-pointer" />
-            {is_playing ? <PauseIcon className="size-8 md:size-6 text-white hover:cursor-pointer" /> :
-              <PlayIcon className="size-8 md:size-6 text-white hover:cursor-pointer" />}
-            <ForwardIcon className="size-8 md:size-6 text-white hover:cursor-pointer" />
+            <BackwardIcon className="size-8 md:size-6 text-white hover:cursor-pointer" onClick={rewindPlayback} />
+            {is_playing ? <PauseIcon className="size-8 md:size-6 text-white hover:cursor-pointer" onClick={stopPlayback} /> :
+              <PlayIcon className="size-8 md:size-6 text-white hover:cursor-pointer" onClick={startPlayback} />}
+            <ForwardIcon className="size-8 md:size-6 text-white hover:cursor-pointer" onClick={skipPlayback} />
           </div>
         </div>
         <div className="flex justify-center mt-2">
