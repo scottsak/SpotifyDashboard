@@ -24,6 +24,8 @@
     "chrome"
   ],
   "include": [
-    "src"
+    "src",
+    "global.d.ts",
+    "index.js"
   ]
 }

@@ -5,10 +5,11 @@ import { PlaybackState } from "../../types/types";
 import ScrollingText from "../ScrollingText";
 
 type PlayerProps = {
-  playbackState: PlaybackState | null
+  playbackState: PlaybackState | null,
+  webPlayback: Spotify.Player | null
 };
 
-const Player: React.FC<PlayerProps> = ({ playbackState }) => {
+const Player: React.FC<PlayerProps> = ({ playbackState, webPlayback }) => {
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   const {
     progress_ms: progress = 0,

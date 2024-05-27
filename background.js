@@ -6,7 +6,7 @@ const SPOTIFY_AUTHROIZE_ENDPOINT = 'https://accounts.spotify.com/authorize';
 const CLIENT_ID = '0621ab6a5f7b4e62ae8658a363731520';
 const CLIENT_SECRET = 'd43bdb36bce64ca8932fcf97ef6c272a';
 const REDIRECT_URI = chrome.identity.getRedirectURL('oauth2');
-const SCOPES = ['user-read-currently-playing', 'user-read-playback-state'];
+const SCOPES = ['user-read-currently-playing', 'user-read-playback-state', 'user-modify-playback-state', 'streaming'];
 const SPACE_DELIMITER = '%20';
 const SCOPES_URL_PARAM = SCOPES.join(SPACE_DELIMITER);
 const AUTH_URL = `${SPOTIFY_AUTHROIZE_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPES_URL_PARAM}&response_type=code&show_dialog=true`;
