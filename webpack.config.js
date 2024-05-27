@@ -51,6 +51,7 @@ module.exports = {
         { from: "background.js", to: "../background.js" },
         { from: "popup.html", to: "../popup.html" },
         { from: "popup.js", to: "../popup.js" },
+        { from: 'spotifySDK.js', to: "../spotifySDK.js" }
       ],
     }),
     ...getHtmlPlugins(["index"]),
