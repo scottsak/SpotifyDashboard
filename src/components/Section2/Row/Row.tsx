@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from './Card';
-import useUserTracks from '../../hooks/spotifyHooks/useUserTracks';
+import useUserTracks from '../../../hooks/spotifyHooks/useUserTracks';
 
 interface Album {
   id: string;
@@ -15,12 +15,12 @@ interface CardData {
   [key: string]: any; // Allow any other properties
 }
 
-interface RowOfCardsProps { }
+interface RowOfCardsProps {}
 
 const RowOfCards: React.FC<RowOfCardsProps> = () => {
   const { userTracks } = useUserTracks();
   return (
-    <div className='flex flex-wrap justify-center'>
+    <div className='overflow-x-scroll whitespace-nowrap p-4 bg-transparent'>
       {userTracks.map((card) => (
         <Card
           key={card.id}
