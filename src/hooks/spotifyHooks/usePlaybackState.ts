@@ -3,6 +3,7 @@ import { getPlaybackState } from '../../services/spotifyService/spotifyService';
 import useToken from '../useToken';
 import { PlaybackState } from '../../types/types';
 import useTabFocus from '../useTabFocused';
+import useEditPlayback, { EditPlaybackController } from './useEditPlayback';
 
 // Different interval lengths based on whether music is playing
 const PLAYING_INTERVAL: number = 1000
@@ -13,9 +14,11 @@ const usePlaybackState = (): {
   error?: string,
   errorStatus?: number | null,
   displayError: boolean,
-  needsTokenRefresh: boolean
+  needsTokenRefresh: boolean,
+  editPlayback: EditPlaybackController
 } => {
   const { token, error: tokenError } = useToken();
+  const editPlayback = useEditPlayback()
   const tabFocused: boolean = useTabFocus()
   const [playbackState, setPlaybackState] = useState<PlaybackState | null>(null);
   const [pollingInterval, setPollingInterval] = useState<number>(5000);
@@ -56,7 +59,7 @@ const usePlaybackState = (): {
     };
 
     // Stop polling if tab isn't focused or there are 3 consecutive errors
-    if (tabFocused || consecutiveErrors > 2) {
+    if (tabFocused || consecutiveErrors > 2 && !editPlayback.loading) {
       fetchPlaybackState();
       intervalId = setInterval(fetchPlaybackState, pollingInterval);
     }
@@ -67,14 +70,15 @@ const usePlaybackState = (): {
         clearInterval(intervalId);
       }
     };
-  }, [token, pollingInterval, tabFocused, consecutiveErrors]);
+  }, [token, pollingInterval, tabFocused, consecutiveErrors, editPlayback.loading]);
 
   return {
     playbackState,
     error: error || tokenError,
     errorStatus,
     displayError: !!tokenError || consecutiveErrors > 2,
-    needsTokenRefresh: errorStatus === 401 && consecutiveErrors > 2
+    needsTokenRefresh: errorStatus === 401 && consecutiveErrors > 2,
+    editPlayback
   };
 };
 
