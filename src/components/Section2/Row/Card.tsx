@@ -23,13 +23,16 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = (props) => {
   return (
-    <div key={props.key} className='max-w-xs overflow-hidden shadow-lg'>
+    <div
+      key={props.key}
+      className='inline-block w-48 mr-4 text-white rounded-lg'
+    >
       <img
         className='h-52'
         src={((props.albumCover || [])[0] || {}).url || ''}
         alt={props.name}
       />
-      <div className='px-6 py-4'>
+      <div className='py-4'>
         <div className='font-bold text-xs mb-2 overflow-hidden whitespace-nowrap'>
           {props.name}
         </div>
