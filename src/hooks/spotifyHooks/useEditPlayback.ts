@@ -12,6 +12,7 @@ export interface EditPlaybackController {
   stopPlayback: () => Promise<void>;
   skipPlayback: () => Promise<void>;
   rewindPlayback: () => Promise<void>;
+  startSpecificPlayback: ({ uris, contextUri }: { uris: string[], contextUri?: string }) => Promise<void>
   loading: boolean;
   error: string | null;
 }
@@ -24,7 +25,7 @@ const useEditPlayback = (): EditPlaybackController => {
   const [error, setError] = useState<string | null>(tokenError);
 
 
-  const runRequest = async (requestToRun: (token: string) => void): Promise<void> => {
+  const runRequest = async (requestToRun: (token: string, body?: any) => void, body?: any): Promise<void> => {
     if (loading) {
       setError('Request already in flight')
       return;
@@ -37,7 +38,7 @@ const useEditPlayback = (): EditPlaybackController => {
     setLoading(true);
     setError(null);
     try {
-      await requestToRun(token);
+      await requestToRun(token, body);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
       setError(errorMessage);
@@ -49,6 +50,10 @@ const useEditPlayback = (): EditPlaybackController => {
   const startPlayback = async () => {
     return await runRequest(startPlaybackService)
   };
+
+  const startSpecificPlayback = async ({ uris, contextUri }: { uris: string[], contextUri?: string }) => {
+    return await runRequest(startPlaybackService, { uris: uris, ...contextUri && { contextUri } })
+  }
 
   const stopPlayback = async () => {
     return await runRequest(stopPlaybackService)
@@ -64,6 +69,7 @@ const useEditPlayback = (): EditPlaybackController => {
 
   return {
     startPlayback,
+    startSpecificPlayback,
     stopPlayback,
     skipPlayback,
     rewindPlayback,

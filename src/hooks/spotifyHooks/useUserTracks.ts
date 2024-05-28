@@ -1,23 +1,11 @@
 import { useEffect, useState } from 'react';
 import { getUserTracks } from '../../services/spotifyService/spotifyService';
 import useToken from '../useToken';
-
-interface Album {
-  id: string;
-  name: string;
-  uri: string;
-  [key: string]: any; // Allow any other properties
-}
-
-interface userTracks {
-  added_at: string;
-  album: Album;
-  [key: string]: any; // Allow any other properties
-}
+import { SpotifyItem } from '../../types/types';
 
 const useUserTracks = () => {
   const { token, error: tokenError } = useToken();
-  const [userTracks, setUserTracks] = useState<userTracks[]>([]);
+  const [userTracks, setUserTracks] = useState<SpotifyItem[]>([]);
   const [error, setError] = useState('');
 
   useEffect(() => {

@@ -1,33 +1,22 @@
 import React from 'react';
 import Card from './Card';
 import useUserTracks from '../../../hooks/spotifyHooks/useUserTracks';
+import { EditPlaybackController } from '../../../hooks/spotifyHooks/useEditPlayback';
 
-interface Album {
-  id: string;
-  name: string;
-  uri: string;
-  [key: string]: any; // Allow any other properties
+
+interface RowOfCardsProps {
+  editPlayback: EditPlaybackController
 }
 
-interface CardData {
-  added_at: string;
-  album: Album;
-  [key: string]: any; // Allow any other properties
-}
-
-interface RowOfCardsProps {}
-
-const RowOfCards: React.FC<RowOfCardsProps> = () => {
+const RowOfCards: React.FC<RowOfCardsProps> = ({ editPlayback }) => {
   const { userTracks } = useUserTracks();
   return (
     <div className='overflow-x-scroll whitespace-nowrap p-4 bg-transparent'>
       {userTracks.map((card) => (
         <Card
+          card={card}
           key={card.id}
-          name={card.album.name}
-          content={card.album.id}
-          artist={card.album.artists}
-          albumCover={card.album.images}
+          editPlayback={editPlayback}
         />
       ))}
     </div>

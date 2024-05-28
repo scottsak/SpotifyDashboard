@@ -8,19 +8,25 @@ import { EditPlaybackController } from '../hooks/spotifyHooks/useEditPlayback';
 type BodyProps = {
   playbackState: PlaybackState;
   editPlayback: EditPlaybackController;
+  displayError: boolean;
+  needsTokenRefresh: boolean;
 };
 
 const Body: React.FC<BodyProps> = (props) => {
-  const { playbackState, editPlayback } = props;
+  const { playbackState, editPlayback, displayError, needsTokenRefresh } = props;
   return (
-    <div className='grid-cols-12 grid-flow-row-dense grid h-full w-screen p-0'>
-      <div className='col-span-1 bg-black h-full'>
+    <div className='flex h-full w-screen'>
+      <div className='flex-none bg-black h-full'>
         <TopSites />
       </div>
-      <div className='col-span-8 lg:col-span-8 g-gray-300 h-full overflow-y-auto'>
-        <Section2 />
+      <div className='flex-grow g-gray-300 h-full overflow-y-auto'>
+        <Section2
+          displayError={displayError}
+          needsTokenRefresh={needsTokenRefresh}
+          editPlayback={editPlayback}
+        />
       </div>
-      <div className='col-span-3 lg:col-span-3 bg-darker h-full overflow-y-auto'>
+      <div className='flex-none w-[300px] bg-darker h-full overflow-y-scroll'>
         <Section3 playbackState={playbackState} editPlayback={editPlayback} />
       </div>
     </div>

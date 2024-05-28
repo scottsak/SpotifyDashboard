@@ -44,25 +44,25 @@ const skipToSong = (
 
 const ListItem: React.FC<ListItemProps> = (props) => {
   const { userQueue, content, editPlayback, albumCover, name, artist } = props;
-  const { skipPlayback = () => {} } = editPlayback;
+  const { skipPlayback = () => { } } = editPlayback;
   return (
     <div
-      className='flex rounded-md shadow-md my-4'
+      className='flex rounded-md shadow-md my-4 hover:cursor-pointer'
       onClick={() => skipToSong(userQueue, content, skipPlayback)}
     >
       <img
-        src={((albumCover || [])[0] || {}).url || ''}
+        src={((albumCover || []).find(({ height }) => height === 64) || albumCover[0] || {}).url || ''}
         alt='Album Cover'
-        className='w-20 h-20 mr-2'
+        className='w-[64px] h-[64px] mr-2'
       />
       <div className='w-full'>
         <ScrollingText
           text={name}
-          additionalClasses={'text-base font-semibold truncate'}
+          additionalClasses={'text-sm font-sans font-light'}
         />
         <ScrollingText
           text={((artist || [])[0] || {}).name || ''}
-          additionalClasses={'text-gray-400'}
+          additionalClasses={'text-xs font-thin'}
         />
       </div>
     </div>

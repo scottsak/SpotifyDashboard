@@ -25,14 +25,16 @@ export interface SpotifyItem {
   popularity: number;
   preview_url: string;
   id: string;
+  uri: string;
 }
 
 export interface SpotifyAlbum {
   album_type: string;
+  uri: string;
   images: {
     height: number;
     width: number;
-    url: string
+    url: string;
   }[];
 }
 

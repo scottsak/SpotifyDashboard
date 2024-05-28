@@ -1,45 +1,36 @@
 import React from 'react';
-
-interface AlbumCover {
-  height: number;
-  url: string;
-  width: number;
-}
-
-interface Artists {
-  id: string;
-  name: string;
-  uri: string;
-  [key: string]: any; // Allow any other properties
-}
+import { EditPlaybackController } from '../../../hooks/spotifyHooks/useEditPlayback';
+import { SpotifyItem } from '../../../types/types';
 
 interface CardProps {
-  name: string;
-  content: string;
-  artist: Artists[];
-  albumCover: AlbumCover[];
-  key: string;
+  editPlayback: EditPlaybackController;
+  card: SpotifyItem
 }
 
-const Card: React.FC<CardProps> = (props) => {
+const Card: React.FC<CardProps> = ({ editPlayback, card }) => {
+  const { startSpecificPlayback } = editPlayback
+  const {
+    id: trackId,
+    uri,
+    name,
+    album: {
+      images,
+      uri: albumUri
+    } = {}
+  } = card
   return (
     <div
-      key={props.key}
-      className='inline-block w-48 mr-4 text-white rounded-lg'
-    >
+      key={trackId}
+      className='inline-block mr-4 text-white rounded-lg hover:cursor-pointer'
+      onClick={() => startSpecificPlayback({
+        uris: [uri],
+        ...!!albumUri && { contextUri: albumUri }
+      })}>
       <img
-        className='h-52'
-        src={((props.albumCover || [])[0] || {}).url || ''}
-        alt={props.name}
+        className='h-[80px]'
+        src={((images || [])[0] || {}).url || ''}
+        alt={name}
       />
-      <div className='py-4'>
-        <div className='font-bold text-xs mb-2 overflow-hidden whitespace-nowrap'>
-          {props.name}
-        </div>
-        <p className='text-gray-700 text-xs overflow-hidden whitespace-nowrap'>
-          {((props.artist || [])[0] || {}).name || ''}
-        </p>
-      </div>
     </div>
   );
 };

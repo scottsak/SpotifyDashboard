@@ -15,7 +15,7 @@ const renderSkeletons = () =>
     .fill('')
     .map((_) => (
       <div className='my-4'>
-        <SidebarCardLoader imgSize={80} />
+        <SidebarCardLoader imgSize={64} />
       </div>
     ));
 
@@ -26,7 +26,7 @@ const QueuedSongs: React.FC<QueuedSongsProps> = (props) => {
 
   return (
     <div className='p-4'>
-      <h2 className='text-lg font-semibold'>Playing Next: </h2>
+      <h2 className='text-base font-semibold'>Playing Next:</h2>
       {loading && !userQueue.length && renderSkeletons()}
       {userQueue.map((item) => (
         <ListItem
