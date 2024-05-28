@@ -3,24 +3,25 @@ import useUserQueue from '../../hooks/spotifyHooks/useUserQueue';
 import ListItem from './ListItem';
 import { PlaybackState } from '../../types/types';
 import SidebarCardLoader from '../SkeletonLoaders/SidebarCardLoader';
+import { EditPlaybackController } from '../../hooks/spotifyHooks/useEditPlayback';
 
 interface QueuedSongsProps {
-  playbackState: PlaybackState
+  playbackState: PlaybackState;
+  editPlayback: EditPlaybackController;
 }
 
-const renderSkeletons = () => Array(12).fill('').map(_ =>
-  <div className='my-4'>
-    <SidebarCardLoader imgSize={80} />
-  </div>
-)
+const renderSkeletons = () =>
+  Array(12)
+    .fill('')
+    .map((_) => (
+      <div className='my-4'>
+        <SidebarCardLoader imgSize={80} />
+      </div>
+    ));
 
 const QueuedSongs: React.FC<QueuedSongsProps> = (props) => {
-  const { playbackState } = props || {}
-  const {
-    item: {
-      id: currentSongId = ''
-    } = {}
-  } = playbackState || {}
+  const { playbackState, editPlayback } = props || {};
+  const { item: { id: currentSongId = '' } = {} } = playbackState || {};
   const { userQueue, loading } = useUserQueue({ currentSongId });
 
   return (
@@ -34,6 +35,8 @@ const QueuedSongs: React.FC<QueuedSongsProps> = (props) => {
           content={item.id}
           artist={item.artists}
           albumCover={item.album.images}
+          userQueue={userQueue}
+          editPlayback={editPlayback}
         />
       ))}
     </div>
