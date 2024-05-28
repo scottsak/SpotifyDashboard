@@ -1,17 +1,17 @@
 import React from 'react';
 import QueuedSongs from './QueuedSongs';
 import { PlaybackState } from '../../types/types';
+import { EditPlaybackController } from '../../hooks/spotifyHooks/useEditPlayback';
 
 interface Section3Props {
-  playbackState: PlaybackState
+  playbackState: PlaybackState;
+  editPlayback: EditPlaybackController;
 }
 
-const Section3: React.FC<Section3Props> = ({ playbackState }) => {
+const Section3: React.FC<Section3Props> = ({ playbackState, editPlayback }) => {
   return (
     <div>
-      <QueuedSongs
-        playbackState={playbackState}
-      />
+      <QueuedSongs playbackState={playbackState} editPlayback={editPlayback} />
     </div>
   );
 };
