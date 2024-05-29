@@ -2,15 +2,17 @@ import refreshAccessToken from './refreshToken';
 
 const BASE_URL = 'https://api.spotify.com/v1';
 
-const fetchSpotifyData = async ({ endpoint, token, retryCount = 0, method }: {
+const fetchSpotifyData = async ({ endpoint, token, retryCount = 0, method, body }: {
   endpoint: string,
   token: string,
   retryCount?: number,
-  method?: string | undefined
+  method?: string | undefined,
+  body?: any
 }): Promise<any> => {
   try {
     const response = await fetch(`${BASE_URL}/${endpoint}`, {
       ...!!method && { method },
+      ...!!body && { body: JSON.stringify(body) },
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -51,8 +53,8 @@ export const getUserQueue = async (token: string) => {
   return await fetchSpotifyData({ endpoint: 'me/player/queue', token });
 };
 
-export const startPlayback = async (token: string) => {
-  return await fetchSpotifyData({ method: 'PUT', endpoint: 'me/player/play', token })
+export const startPlayback = async (token: string, body?: any) => {
+  return await fetchSpotifyData({ method: 'PUT', endpoint: 'me/player/play', token, body })
 }
 
 export const stopPlayback = async (token: string) => {

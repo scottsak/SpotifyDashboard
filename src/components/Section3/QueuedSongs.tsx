@@ -15,18 +15,34 @@ const renderSkeletons = () =>
     .fill('')
     .map((_) => (
       <div className='my-4'>
-        <SidebarCardLoader imgSize={80} />
+        <SidebarCardLoader imgSize={64} />
       </div>
     ));
 
 const QueuedSongs: React.FC<QueuedSongsProps> = (props) => {
   const { playbackState, editPlayback } = props || {};
   const { item: { id: currentSongId = '' } = {} } = playbackState || {};
-  const { userQueue, loading } = useUserQueue({ currentSongId });
+  const { userQueue, currentlyPlaying, loading } = useUserQueue({
+    currentSongId,
+  });
 
   return (
     <div className='p-4'>
-      <h2 className='text-lg font-semibold'>Playing Next: </h2>
+      {currentlyPlaying && (
+        <div>
+          <h2 className='text-base font-semibold'>Now Playing </h2>
+          <ListItem
+            key={currentlyPlaying.id}
+            name={currentlyPlaying.name}
+            content={currentlyPlaying.id}
+            artist={currentlyPlaying.artists}
+            albumCover={currentlyPlaying.album.images}
+            userQueue={[currentlyPlaying]}
+            editPlayback={editPlayback}
+          />
+        </div>
+      )}
+      <h2 className='text-base font-semibold'>Playing Next </h2>
       {loading && !userQueue.length && renderSkeletons()}
       {userQueue.map((item) => (
         <ListItem

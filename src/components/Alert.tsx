@@ -8,7 +8,7 @@ type AlertProps = {
 const Alert: React.FC<AlertProps> = (props) => {
   const { message, promptLogin } = props || {};
   return (
-    <div className='absolute left-1/2 -translate-x-1/2 top-3 bg-primary p-1 px-3 rounded-full'>
+    <div className='absolute left-1/2 -translate-x-1/2 top-3 bg-primary p-1 px-3 rounded-full w-max'>
       <p>
         {message}
         {promptLogin && <span> Click&nbsp;
