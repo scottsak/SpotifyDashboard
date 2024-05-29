@@ -59,7 +59,7 @@ const usePlaybackState = (): {
     };
 
     // Stop polling if tab isn't focused or there are 3 consecutive errors
-    if (tabFocused || consecutiveErrors > 2 && !editPlayback.loading) {
+    if (tabFocused && consecutiveErrors < 2 && !editPlayback.loading) {
       fetchPlaybackState();
       intervalId = setInterval(fetchPlaybackState, pollingInterval);
     }

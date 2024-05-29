@@ -4,6 +4,7 @@ import PlayerProgress from "./PlayerProgress";
 import { PlaybackState } from "../../types/types";
 import ScrollingText from "../ScrollingText";
 import { EditPlaybackController } from "../../hooks/spotifyHooks/useEditPlayback";
+import SidebarCard from "../SkeletonLoaders/SidebarCardLoader";
 
 type PlayerProps = {
   playbackState: PlaybackState | null,
@@ -51,7 +52,7 @@ const Player: React.FC<PlayerProps> = ({ playbackState, editPlayback }) => {
             }
             {/* Show placeholder if image is not loaded */}
             {!imageLoaded &&
-              <div className="h-[64px] w-[64px] rounded bg-dark mr-2" />
+              <SidebarCard imgSize={64} />
             }
             {imageLoaded &&
               <div className="w-full">
