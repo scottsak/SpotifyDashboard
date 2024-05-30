@@ -6,9 +6,9 @@ export type Bookmark = {
   url?: string;
   children?: Array<Bookmark>;
   faviconUrl?: string;
-}
+};
 
-export type NullOrUndefined = null | undefined
+export type NullOrUndefined = null | undefined;
 
 export interface PlaybackState {
   is_playing: boolean;
@@ -18,7 +18,7 @@ export interface PlaybackState {
 
 export interface SpotifyItem {
   name: string;
-  album: SpotifyAlbum
+  album: SpotifyAlbum;
   artists: SpotifyArtist[];
   duration_ms: number;
   href: string;
@@ -39,5 +39,8 @@ export interface SpotifyAlbum {
 }
 
 export interface SpotifyArtist {
+  id: string;
   name: string;
+  uri: string;
+  [key: string]: any;
 }
