@@ -3,5 +3,6 @@ export const SCOPES: string[] = [
   'user-read-playback-state',
   'user-modify-playback-state',
   'streaming',
-  'web-playback'
-]
+  'web-playback',
+  'user-top-read',
+];
