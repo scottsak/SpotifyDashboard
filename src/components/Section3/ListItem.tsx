@@ -24,8 +24,9 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   const { userQueue, editPlayback, item } = props;
   const { id, album, name, artists, type, images, show } = item || {};
   const { skipPlayback = () => {} } = editPlayback;
-  const queueImages = type === 'episode' ? images : (album || {}).images;
-  const subSection = type === 'episode' ? show : (artists || [])[0];
+  const isSong = type === 'track';
+  const queueImages = isSong ? (album || {}).images : images;
+  const subSection = isSong ? (artists || [])[0] : show;
   return (
     <div
       className='flex rounded-md shadow-md my-4 hover:cursor-pointer'
@@ -33,7 +34,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     >
       <img
         src={
-          ((queueImages || []).find(({ height }) => height === 64) || ((album || {}).images || [])[0] || {}).url || ''
+          ((queueImages || []).find(({ height }) => height === 640) || ((album || {}).images || [])[0] || {}).url || ''
         }
         alt='Album Cover'
         className='w-[64px] h-[64px] mr-2'
