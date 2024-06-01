@@ -22,8 +22,10 @@ const skipToSong = (queue: UserQueue[], id: String, skipPlayback: { (): void; ()
 
 const ListItem: React.FC<ListItemProps> = (props) => {
   const { userQueue, editPlayback, item } = props;
-  const { id, album, name, artists } = item || {};
+  const { id, album, name, artists, type, images, show } = item || {};
   const { skipPlayback = () => {} } = editPlayback;
+  const queueImages = type === 'episode' ? images : (album || {}).images;
+  const subSection = type === 'episode' ? show : (artists || [])[0];
   return (
     <div
       className='flex rounded-md shadow-md my-4 hover:cursor-pointer'
@@ -31,15 +33,14 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     >
       <img
         src={
-          (((album || {}).images || []).find(({ height }) => height === 64) || ((album || {}).images || [])[0] || {})
-            .url || ''
+          ((queueImages || []).find(({ height }) => height === 64) || ((album || {}).images || [])[0] || {}).url || ''
         }
         alt='Album Cover'
         className='w-[64px] h-[64px] mr-2'
       />
       <div className='w-full'>
         <ScrollingText text={name} additionalClasses={'text-sm font-sans font-light'} />
-        <ScrollingText text={((artists || [])[0] || {}).name || ''} additionalClasses={'text-xs font-thin'} />
+        <ScrollingText text={(subSection || {}).name || ''} additionalClasses={'text-xs font-thin'} />
       </div>
     </div>
   );
