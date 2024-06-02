@@ -6,3 +6,5 @@ export const SCOPES: string[] = [
   'web-playback',
   'user-top-read',
 ];
+
+export const LAYOUT_SELECTIONS: string[] = ['default', 'search'];

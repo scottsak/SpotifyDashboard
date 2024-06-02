@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react';
 
-const useToken = (): { token: string, error: string } => {
-  const [token, setToken] = useState<string>('')
-  const [error, setError] = useState<string>('')
+const useToken = (): { token: string; error: string } => {
+  const [token, setToken] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     let isMounted = true;
@@ -16,24 +16,24 @@ const useToken = (): { token: string, error: string } => {
         } else if (response?.error) {
           setError(response.error);
         } else {
-          setError("Unknown error occurred while fetching token");
+          setError('Unknown error occurred while fetching token');
         }
       });
     } catch (error) {
-      let message = 'Unknown Error'
+      let message = 'Unknown Error';
       if (error instanceof Error) {
-        message = error.message
+        message = error.message;
       }
       if (isMounted) {
-        setError(message)
+        setError(message);
       }
     }
 
     return () => {
       isMounted = false;
-    }
+    };
   }, []);
-  return { token, error }
-}
+  return { token, error };
+};
 
-export default useToken
+export default useToken;

@@ -1,10 +1,11 @@
-import './styles.css'
+import './styles.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import 'flowbite';
 
-const root = document.createElement("div")
-document.body.appendChild(root)
+const root = document.createElement('div');
+document.body.appendChild(root);
 const rootDiv = ReactDOM.createRoot(root);
 rootDiv.render(
   <React.StrictMode>

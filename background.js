@@ -6,13 +6,18 @@ const SPOTIFY_AUTHROIZE_ENDPOINT = 'https://accounts.spotify.com/authorize';
 const CLIENT_ID = '0621ab6a5f7b4e62ae8658a363731520';
 const CLIENT_SECRET = 'd43bdb36bce64ca8932fcf97ef6c272a';
 const REDIRECT_URI = chrome.identity.getRedirectURL('oauth2');
-const SCOPES = ['user-read-currently-playing', 'user-read-playback-state', 'user-modify-playback-state', 'streaming', 'user-top-read'];
+const SCOPES = [
+  'user-read-currently-playing',
+  'user-read-playback-state',
+  'user-modify-playback-state',
+  'streaming',
+  'user-top-read',
+];
 const SPACE_DELIMITER = '%20';
 const SCOPES_URL_PARAM = SCOPES.join(SPACE_DELIMITER);
 const AUTH_URL = `${SPOTIFY_AUTHROIZE_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPES_URL_PARAM}&response_type=code&show_dialog=true`;
 
-const logError = (event, error) =>
-  console.error(`Error handling event: ${event}`, error);
+const logError = (event, error) => console.error(`Error handling event: ${event}`, error);
 
 const setTokens = (accessToken, refreshToken) => {
   chrome.storage.local.set({
@@ -43,21 +48,18 @@ const exchangeCodeForToken = async (code) => {
 };
 
 const login = () => {
-  chrome.identity.launchWebAuthFlow(
-    { url: AUTH_URL, interactive: true },
-    (redirectUri) => {
-      const code = redirectUri?.split('?code=')[1];
-      if (code) {
-        exchangeCodeForToken(code)
-          .then(({ access_token, refresh_token }) => {
-            setTokens(access_token, refresh_token);
-          })
-          .catch((error) => {
-            console.error('Error exchanging code for token:', error);
-          });
-      }
+  chrome.identity.launchWebAuthFlow({ url: AUTH_URL, interactive: true }, (redirectUri) => {
+    const code = redirectUri?.split('?code=')[1];
+    if (code) {
+      exchangeCodeForToken(code)
+        .then(({ access_token, refresh_token }) => {
+          setTokens(access_token, refresh_token);
+        })
+        .catch((error) => {
+          console.error('Error exchanging code for token:', error);
+        });
     }
-  );
+  });
 };
 
 const getToken = ({ sendResponse }) => {
@@ -71,6 +73,19 @@ const getRefreshToken = ({ sendResponse }) => {
   chrome.storage.local.get('refreshToken', (data) => {
     const refreshToken = data.refreshToken;
     sendResponse({ refreshToken });
+  });
+};
+
+const getLayoutSelection = ({ sendResponse }) => {
+  chrome.storage.local.get('layoutSelection', (data) => {
+    const layoutSelection = data.layoutSelection;
+    sendResponse(layoutSelection);
+  });
+};
+
+const setLayoutSelection = (layoutSelection) => {
+  chrome.storage.local.set({
+    layoutSelection,
   });
 };
 
@@ -91,6 +106,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
     if (message.type === 'getRefreshToken') {
       getRefreshToken({ sendResponse });
+      return true;
+    }
+    if (message.type === 'getLayoutSelection') {
+      getLayoutSelection({ sendResponse });
+      return true;
+    }
+    if (message.type === 'setLayoutSelection') {
+      const { layoutSelection } = message.payload || {};
+      if (layoutSelection) {
+        setLayoutSelection(layoutSelection);
+      }
       return true;
     }
   } catch (err) {
