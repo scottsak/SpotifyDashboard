@@ -21,7 +21,8 @@ const renderSkeletons = () =>
 
 const QueuedSongs: React.FC<QueuedSongsProps> = (props) => {
   const { playbackState, editPlayback } = props || {};
-  const { item: { id: currentSongId = '' } = {} } = playbackState || {};
+  const { item } = playbackState || {};
+  const currentSongId = (item || {}).id || '';
   const { userQueue, currentlyPlaying, loading } = useUserQueue({
     currentSongId,
   });
@@ -31,29 +32,13 @@ const QueuedSongs: React.FC<QueuedSongsProps> = (props) => {
       {currentlyPlaying && (
         <div>
           <h2 className='text-base font-semibold'>Now Playing </h2>
-          <ListItem
-            key={currentlyPlaying.id}
-            name={currentlyPlaying.name}
-            content={currentlyPlaying.id}
-            artist={currentlyPlaying.artists}
-            albumCover={currentlyPlaying.album.images}
-            userQueue={[currentlyPlaying]}
-            editPlayback={editPlayback}
-          />
+          <ListItem item={currentlyPlaying} userQueue={[currentlyPlaying]} editPlayback={editPlayback} />
         </div>
       )}
       <h2 className='text-base font-semibold'>Playing Next </h2>
       {loading && !userQueue.length && renderSkeletons()}
       {userQueue.map((item) => (
-        <ListItem
-          key={item.id}
-          name={item.name}
-          content={item.id}
-          artist={item.artists}
-          albumCover={item.album.images}
-          userQueue={userQueue}
-          editPlayback={editPlayback}
-        />
+        <ListItem item={item} userQueue={userQueue} editPlayback={editPlayback} />
       ))}
     </div>
   );
