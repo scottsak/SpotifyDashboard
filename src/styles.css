@@ -3,9 +3,8 @@
 @tailwind utilities;
 
 @layer components {
-
   /* Example of custom css class made using tailwind helpers */
   .custom-class {
-    @apply flex justify-center
+    @apply flex justify-center;
   }
 }
