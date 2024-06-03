@@ -1,45 +1,59 @@
-const path = require("path");
-const HTMLPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin")
+const path = require('path');
+const HTMLPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
-const tailwindcss = require('tailwindcss')
-const autoprefixer = require('autoprefixer')
+const tailwindcss = require('tailwindcss');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
   entry: {
-    index: "./src/index.tsx",
-    background: "./background.js"
+    index: './src/index.tsx',
+    background: './background.js',
   },
-  mode: "production",
+  mode: 'production',
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         use: [
           {
-            loader: "ts-loader",
+            loader: 'ts-loader',
             options: {
               compilerOptions: { noEmit: false },
-            }
-          }],
+            },
+          },
+        ],
         exclude: /node_modules/,
       },
       {
         exclude: /node_modules/,
         test: /\.css$/i,
         use: [
-          "style-loader",
-          "css-loader",
+          'style-loader',
+          'css-loader',
           {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
                 ident: 'postcss',
-                plugins: [tailwindcss, autoprefixer]
-              }
-            }
-          }
-        ]
+                plugins: [tailwindcss, autoprefixer],
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+              outputPath: 'images',
+              publicPath: 'images',
+            },
+          },
+        ],
       },
     ],
   },
@@ -47,21 +61,22 @@ module.exports = {
     new Dotenv(),
     new CopyPlugin({
       patterns: [
-        { from: "manifest.json", to: "../manifest.json" },
-        { from: "background.js", to: "../background.js" },
-        { from: "popup.html", to: "../popup.html" },
-        { from: "popup.js", to: "../popup.js" },
-        { from: 'spotifySDK.js', to: "../spotifySDK.js" }
+        { from: 'manifest.json', to: '../manifest.json' },
+        { from: 'background.js', to: '../background.js' },
+        { from: 'popup.html', to: '../popup.html' },
+        { from: 'popup.js', to: '../popup.js' },
+        { from: 'spotifySDK.js', to: '../spotifySDK.js' },
+        { from: 'images', to: '../images' },
       ],
     }),
-    ...getHtmlPlugins(["index"]),
+    ...getHtmlPlugins(['index']),
   ],
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    path: path.join(__dirname, "dist/js"),
-    filename: "[name].js",
+    path: path.join(__dirname, 'dist/js'),
+    filename: '[name].js',
   },
 };
 
@@ -69,7 +84,7 @@ function getHtmlPlugins(chunks) {
   return chunks.map(
     (chunk) =>
       new HTMLPlugin({
-        title: "React extension",
+        title: 'React extension',
         filename: `${chunk}.html`,
         chunks: [chunk],
       })
