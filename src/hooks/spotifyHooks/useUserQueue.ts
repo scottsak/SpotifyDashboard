@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getUserQueue } from '../../services/spotifyService/spotifyService';
-import { SpotifyArtist, SpotifyAlbum, SpotifyItem } from '../../types/types';
+import { SpotifyItem } from '../../types/types';
 import useToken from '../useToken';
 
 interface CurrentlyPlaying extends SpotifyItem {}
