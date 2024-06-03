@@ -7,4 +7,13 @@
   .custom-class {
     @apply flex justify-center;
   }
+
+  [data-popover-trigger]:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  [data-popper-arrow^='true']::after {
+    @apply border-medium !important;
+  }
 }

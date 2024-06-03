@@ -24,22 +24,22 @@ const renderPopover = (layoutSelection: string, setLayoutSelection: (selection: 
     data-popover
     id='popover-click'
     role='tooltip'
-    className='absolute z-10 invisible inline-block w-48 text-sm text-white transition-opacity duration-300 bg-darker border-dark border rounded-lg shadow-sm opacity-0'
+    className='absolute z-10 invisible inline-block w-48 text-sm text-white transition-opacity duration-300 bg-medium rounded-lg shadow-sm opacity-0'
   >
-    <div className='px-3 py-2 bg-darker border-b rounded-t-lg'>
-      <h3 className='font-semibold text-white'>Layout</h3>
+    <div className='px-3 py-2 bg-medium rounded-t-lg text-center fs-large'>
+      <h3 className='text-white font-bold'>Layout</h3>
     </div>
     <div className='px-3 py-2'>
       {LAYOUT_SELECTIONS.map((selection) => (
         <p key={selection} onClick={() => setLayoutSelection(selection)} className='p-2 hover:cursor-pointer relative'>
           {selection === layoutSelection && (
-            <span className='w-2 h-2 bg-primary rounded-full absolute block -left-2 top-1/2 -translate-y-1/2' />
+            <span className='w-1 h-1 bg-primary rounded-full absolute block -left-1 top-1/2 -translate-y-1/2' />
           )}
-          {selection}
+          {selection.charAt(0).toUpperCase() + selection.slice(1)}
         </p>
       ))}
     </div>
-    <div data-popper-arrow className='border-dark after:border-dark'></div>
+    <div data-popper-arrow></div>
   </div>
 );
 
