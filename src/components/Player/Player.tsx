@@ -8,7 +8,6 @@ import SidebarCard from '../SkeletonLoaders/SidebarCardLoader';
 
 type PlayerProps = {
   playbackState: PlaybackState | null;
-  webPlayback: Spotify.Player | null;
   editPlayback: EditPlaybackController;
 };
 

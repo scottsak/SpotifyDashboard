@@ -22,7 +22,12 @@ const Body: React.FC<BodyProps> = (props) => {
         <TopSites layoutSelection={layoutSelection} setLayoutSelection={setLayoutSelection} />
       </div>
       <div className='flex-grow g-gray-300 h-full overflow-y-auto'>
-        <Section2 displayError={displayError} needsTokenRefresh={needsTokenRefresh} editPlayback={editPlayback} />
+        <Section2
+          displayError={displayError}
+          needsTokenRefresh={needsTokenRefresh}
+          editPlayback={editPlayback}
+          layoutSelection={layoutSelection}
+        />
       </div>
       <div className='flex-none w-[300px] bg-darker h-full overflow-y-scroll'>
         <Section3 playbackState={playbackState} editPlayback={editPlayback} />

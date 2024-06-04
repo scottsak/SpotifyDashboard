@@ -6,25 +6,25 @@ import useTabFocus from '../useTabFocused';
 import useEditPlayback, { EditPlaybackController } from './useEditPlayback';
 
 // Different interval lengths based on whether music is playing
-const PLAYING_INTERVAL: number = 1000
-const IDLE_INTERVAL: number = 5000
+const PLAYING_INTERVAL: number = 1000;
+const IDLE_INTERVAL: number = 5000;
 
 const usePlaybackState = (): {
-  playbackState: any,
-  error?: string,
-  errorStatus?: number | null,
-  displayError: boolean,
-  needsTokenRefresh: boolean,
-  editPlayback: EditPlaybackController
+  playbackState: any;
+  error?: string;
+  errorStatus?: number | null;
+  displayError: boolean;
+  needsTokenRefresh: boolean;
+  editPlayback: EditPlaybackController;
 } => {
   const { token, error: tokenError } = useToken();
-  const editPlayback = useEditPlayback()
-  const tabFocused: boolean = useTabFocus()
+  const editPlayback = useEditPlayback();
+  const tabFocused: boolean = useTabFocus();
   const [playbackState, setPlaybackState] = useState<PlaybackState | null>(null);
-  const [pollingInterval, setPollingInterval] = useState<number>(5000);
+  const [pollingInterval, setPollingInterval] = useState<number>(IDLE_INTERVAL);
   const [error, setError] = useState<string>('');
-  const [errorStatus, setErrorStatus] = useState<number | null>(null)
-  const [consecutiveErrors, setConsecutiveErrors] = useState<number>(0)
+  const [errorStatus, setErrorStatus] = useState<number | null>(null);
+  const [consecutiveErrors, setConsecutiveErrors] = useState<number>(0);
 
   useEffect(() => {
     let isMounted = true;
@@ -39,8 +39,8 @@ const usePlaybackState = (): {
       try {
         const playbackStateData = await getPlaybackState(token);
         if (playbackStateData.error) {
-          setConsecutiveErrors(consecutiveErrors + 1)
-          setErrorStatus(playbackStateData.status)
+          setConsecutiveErrors(consecutiveErrors + 1);
+          setErrorStatus(playbackStateData.status);
         }
         if (isMounted) {
           setPlaybackState(playbackStateData);
@@ -53,12 +53,13 @@ const usePlaybackState = (): {
         if (isMounted) {
           const message = error instanceof Error ? error.message : 'Unknown error';
           setError(message);
-          clearInterval(intervalId)
+          clearInterval(intervalId);
         }
       }
     };
 
     // Stop polling if tab isn't focused or there are 3 consecutive errors
+    // Refresh polling when an edit to playback is made to refresh the current state
     if (tabFocused && consecutiveErrors < 2 && !editPlayback.loading) {
       fetchPlaybackState();
       intervalId = setInterval(fetchPlaybackState, pollingInterval);
@@ -78,7 +79,7 @@ const usePlaybackState = (): {
     errorStatus,
     displayError: !!tokenError || consecutiveErrors > 2,
     needsTokenRefresh: errorStatus === 401 && consecutiveErrors > 2,
-    editPlayback
+    editPlayback,
   };
 };
 
