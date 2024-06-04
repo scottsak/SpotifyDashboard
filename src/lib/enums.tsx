@@ -7,4 +7,4 @@ export const SCOPES: string[] = [
   'user-top-read',
 ];
 
-export const LAYOUT_SELECTIONS: string[] = ['default', 'album'];
+export const LAYOUT_SELECTIONS: string[] = ['default', 'search'];
