@@ -3,24 +3,20 @@
   <head>
     <title>Spotify Dashboard</title>
     <meta charset="utf-8" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   </head>
   <body class="bg-black">
     <div class="container mt-3" style="width: 350px">
-      <h2 class="text-center text-white">Login To Spotify</h2>
-      <div class="flex justify-center items-center h-screen">
+      <div class="flex flex-col justify-center items-center h-screen space-y-6">
+        <img src="images/Spotify_Logo_RGB_Green.png" alt="Spotify Logo" class="w-40" />
+        <h2 class="text-center text-white">Login To Spotify</h2>
         <button
           id="loginButton"
-          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          class="inline-flex items-center text-black font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          style="background-color: #1cd760"
         >
-          login
+          Log in <img src="images/icons/openNewTab.png" width="15px" alt="new tab" class="ml-2" />
         </button>
       </div>
     </div>
