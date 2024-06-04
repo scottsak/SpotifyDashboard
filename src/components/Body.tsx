@@ -26,6 +26,7 @@ const Body: React.FC<BodyProps> = (props) => {
           displayError={displayError}
           needsTokenRefresh={needsTokenRefresh}
           editPlayback={editPlayback}
+          playbackState={playbackState}
           layoutSelection={layoutSelection}
         />
       </div>
