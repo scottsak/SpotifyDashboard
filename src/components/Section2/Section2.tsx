@@ -1,5 +1,7 @@
 import React from 'react';
 import Alert from '../Alert';
+import { PlaybackState } from '../../types/types';
+import AlbumLayout from './Album/AlbumLayout';
 import { EditPlaybackController } from '../../hooks/spotifyHooks/useEditPlayback';
 import DefaultLayout from './DefaultLayout/DefaultLayout';
 
@@ -7,16 +9,19 @@ interface Section2Props {
   displayError: boolean;
   needsTokenRefresh: boolean;
   editPlayback: EditPlaybackController;
+  playbackState: PlaybackState;
   layoutSelection: string;
 }
 
-const renderMainLayout = ({ layoutSelection }: { layoutSelection: string }) => {
+const renderMainLayout = ({ layoutSelection, playbackState }: { layoutSelection: string; playbackState: any }) => {
   if (layoutSelection === 'default') {
     return <DefaultLayout />;
+  } else if (layoutSelection === 'album') {
+    return <AlbumLayout playbackState={playbackState} />;
   }
 };
 
-const Section2: React.FC<Section2Props> = ({ displayError, needsTokenRefresh, editPlayback, layoutSelection }) => {
+const Section2: React.FC<Section2Props> = ({ displayError, needsTokenRefresh, layoutSelection, playbackState }) => {
   return (
     <div className='relative flex flex-col justify-between h-full'>
       {displayError && (
@@ -25,8 +30,7 @@ const Section2: React.FC<Section2Props> = ({ displayError, needsTokenRefresh, ed
           promptLogin={true}
         />
       )}
-      {/* Main Layouts */}
-      {renderMainLayout({ layoutSelection })}
+      {renderMainLayout({ layoutSelection, playbackState })}
     </div>
   );
 };
