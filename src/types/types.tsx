@@ -14,6 +14,12 @@ export interface PlaybackState {
   is_playing: boolean;
   progress_ms: number;
   item?: SpotifyItem;
+  context?: SpotifyContext;
+}
+
+export interface SpotifyContext {
+  type: string;
+  uri: string;
 }
 
 interface Images {
