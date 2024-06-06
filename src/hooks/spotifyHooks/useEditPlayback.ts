@@ -3,20 +3,19 @@ import {
   startPlayback as startPlaybackService,
   stopPlayback as stopPlaybackService,
   skipPlayback as skipPlaybackService,
-  rewindPlayback as rewindPlaybackService
-} from "../../services/spotifyService/spotifyService";
-import useToken from "../useToken";
+  rewindPlayback as rewindPlaybackService,
+} from '../../services/spotifyService/spotifyService';
+import useToken from '../useToken';
 
 export interface EditPlaybackController {
   startPlayback: () => Promise<void>;
   stopPlayback: () => Promise<void>;
   skipPlayback: () => Promise<void>;
   rewindPlayback: () => Promise<void>;
-  startSpecificPlayback: ({ uris, contextUri }: { uris: string[], contextUri?: string }) => Promise<void>
+  startSpecificPlayback: ({ uris, contextUri }: { uris: string[]; contextUri?: string }) => Promise<void>;
   loading: boolean;
   error: string | null;
 }
-
 
 // Should be used primary in usePlaybackState to ensure ui update after response
 const useEditPlayback = (): EditPlaybackController => {
@@ -24,15 +23,14 @@ const useEditPlayback = (): EditPlaybackController => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(tokenError);
 
-
   const runRequest = async (requestToRun: (token: string, body?: any) => void, body?: any): Promise<void> => {
     if (loading) {
-      setError('Request already in flight')
+      setError('Request already in flight');
       return;
     }
 
     if (!token) {
-      setError("Token is not available.");
+      setError('Token is not available.');
       return;
     }
     setLoading(true);
@@ -45,26 +43,26 @@ const useEditPlayback = (): EditPlaybackController => {
     } finally {
       setLoading(false);
     }
-  }
-
-  const startPlayback = async () => {
-    return await runRequest(startPlaybackService)
   };
 
-  const startSpecificPlayback = async ({ uris, contextUri }: { uris: string[], contextUri?: string }) => {
-    return await runRequest(startPlaybackService, { uris: uris, ...contextUri && { contextUri } })
-  }
+  const startPlayback = async () => {
+    return await runRequest(startPlaybackService);
+  };
+
+  const startSpecificPlayback = async ({ uris, contextUri }: { uris: string[]; contextUri?: string }) => {
+    return await runRequest(startPlaybackService, { uris: uris, ...(contextUri && { contextUri }) });
+  };
 
   const stopPlayback = async () => {
-    return await runRequest(stopPlaybackService)
+    return await runRequest(stopPlaybackService);
   };
 
   const skipPlayback = async () => {
-    return await runRequest(skipPlaybackService)
+    return await runRequest(skipPlaybackService);
   };
 
   const rewindPlayback = async () => {
-    return await runRequest(rewindPlaybackService)
+    return await runRequest(rewindPlaybackService);
   };
 
   return {

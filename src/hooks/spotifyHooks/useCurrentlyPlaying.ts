@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getCurrentlyPlaying } from '../../services/spotifyService/spotifyService'
+import { getCurrentlyPlaying } from '../../services/spotifyService/spotifyService';
 import useToken from '../useToken';
 
 const useCurrentlyPlaying = () => {
@@ -22,11 +22,11 @@ const useCurrentlyPlaying = () => {
           setError(err.message);
         });
     } catch (err) {
-      let message = 'Currently Playing: Unknown Error'
+      let message = 'Currently Playing: Unknown Error';
       if (err instanceof Error) {
-        message = err.message
+        message = err.message;
       }
-      setError(message)
+      setError(message);
     }
   }, [token]);
   return { currentlyPlaying, error: error || tokenError };

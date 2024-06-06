@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const useTabFocus = (): boolean => {
   const [isTabFocused, setIsTabFocused] = useState<boolean>(true);

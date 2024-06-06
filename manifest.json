@@ -15,26 +15,12 @@
   "chrome_url_overrides": {
     "newtab": "js/index.html"
   },
-  "permissions": [
-    "bookmarks",
-    "topSites",
-    "favicon",
-    "tabs",
-    "identity",
-    "storage"
-  ],
+  "permissions": ["bookmarks", "topSites", "favicon", "tabs", "identity", "storage"],
   "web_accessible_resources": [
     {
-      "resources": [
-        "_favicon/*",
-        "spotifySDK.js"
-      ],
-      "matches": [
-        "<all_urls>"
-      ],
-      "extension_ids": [
-        "*"
-      ]
+      "resources": ["_favicon/*", "spotifySDK.js"],
+      "matches": ["<all_urls>"],
+      "extension_ids": ["*"]
     }
   ],
   "oauth2": {
@@ -46,9 +32,6 @@
       "streaming",
       "user-top-read"
     ],
-    "redirect_uris": [
-      "http://localhost/",
-      "https://localhost/"
-    ]
+    "redirect_uris": ["http://localhost/", "https://localhost/"]
   }
 }
