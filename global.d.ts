@@ -1,4 +1,4 @@
-export { };
+export {};
 
 declare global {
   interface Window {
@@ -12,7 +12,6 @@ declare global {
     };
   }
 
-
   declare namespace Spotify {
     interface Player {
       addListener: (event: string, cb: (data: any) => void) => void;
@@ -24,5 +23,3 @@ declare global {
     }
   }
 }
-
-

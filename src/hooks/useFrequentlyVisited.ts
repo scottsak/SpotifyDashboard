@@ -1,34 +1,33 @@
-import { useEffect, useState } from "react";
-import { getFaviconUrl } from "../util/getFaviconUrl";
+import { useEffect, useState } from 'react';
+import { getFaviconUrl } from '../util/getFaviconUrl';
 
 export type TopSite = {
-  url: string,
-  title: string,
-  faviconUrl?: string
-}
+  url: string;
+  title: string;
+  faviconUrl?: string;
+};
 type SetTopSites = (topSites: TopSite[] | null) => void;
 type SetError = (error: Boolean) => void;
 type SetLoading = (loading: Boolean) => void;
 type UseTopSitesReturnValue = {
-  topSites: Array<TopSite> | null,
-  error: Boolean,
-  loading: Boolean
-}
+  topSites: Array<TopSite> | null;
+  error: Boolean;
+  loading: Boolean;
+};
 
 const getTopSites = async (setTopSites: SetTopSites, setError: SetError, setLoading: SetLoading) => {
   try {
-    setLoading(true)
+    setLoading(true);
     const topSites = await chrome.topSites.get();
-    const topSitesWithFavicon: Array<TopSite> =
-      topSites.map((topSite: TopSite) => ({
-        ...topSite,
-        faviconUrl: getFaviconUrl(topSite.url),
-      }))
+    const topSitesWithFavicon: Array<TopSite> = topSites.map((topSite: TopSite) => ({
+      ...topSite,
+      faviconUrl: getFaviconUrl(topSite.url),
+    }));
     setTopSites(topSitesWithFavicon || null);
   } catch (err) {
-    setError(true)
+    setError(true);
   } finally {
-    setLoading(false)
+    setLoading(false);
   }
 };
 

@@ -9,22 +9,23 @@ const useWebPlayback = () => {
 
   useEffect(() => {
     let mounted = true;
-    const hasScript: boolean = !!document.getElementById('spotify-sdk-script')
+    const hasScript: boolean = !!document.getElementById('spotify-sdk-script');
 
     if (token && mounted && !hasScript) {
-      const script = document.createElement("script");
+      const script = document.createElement('script');
       script.src = chrome.runtime.getURL('spotifySDK.js');
       script.async = true;
-      script.id = 'spotify-sdk-script'
+      script.id = 'spotify-sdk-script';
 
       document.body.appendChild(script);
       if (!window.onSpotifyWebPlaybackSDKReady) {
-
         window.onSpotifyWebPlaybackSDKReady = () => {
           const player: Spotify.Player = new window.Spotify.Player({
             name: 'Web Playback SDK',
-            getOAuthToken: (cb: (token: string) => void) => { cb(token); },
-            volume: 0.5
+            getOAuthToken: (cb: (token: string) => void) => {
+              cb(token);
+            },
+            volume: 0.5,
           });
 
           setPlayer(player);
@@ -34,11 +35,7 @@ const useWebPlayback = () => {
             setLoading(false);
           });
 
-          player.addListener('player_state_changed', ({
-            position,
-            duration,
-            track_window: { current_track }
-          }) => {
+          player.addListener('player_state_changed', ({ position, duration, track_window: { current_track } }) => {
             // console.log('Currently Playing', current_track);
             // console.log('Position in Song', position);
             // console.log('Duration of Song', duration);
@@ -50,7 +47,7 @@ const useWebPlayback = () => {
 
           player.connect();
         };
-      };
+      }
 
       script.onerror = () => {
         if (mounted) {
