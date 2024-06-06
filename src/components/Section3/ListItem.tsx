@@ -3,35 +3,33 @@ import ScrollingText from '../ScrollingText';
 import { EditPlaybackController } from '../../hooks/spotifyHooks/useEditPlayback';
 import { SpotifyItem } from '../../types/types';
 
-interface UserQueue {
-  [key: string]: any;
-}
-
 interface ListItemProps {
   item: SpotifyItem;
-  userQueue: UserQueue[];
+  userQueue: SpotifyItem[];
   editPlayback: EditPlaybackController;
+  linkToSpotify?: boolean;
+  index: number;
 }
 
-const skipToSong = (queue: UserQueue[], id: String, skipPlayback: { (): void; (): void }) => {
-  const songToSkipTo: number = (queue || []).findIndex((song) => song.id === id);
-  for (let x = 0; x <= songToSkipTo; x++) {
-    skipPlayback();
-  }
-};
+const getQueueUris = (userQueue: SpotifyItem[], currentIndex: number) =>
+  userQueue.slice(currentIndex).map((item: SpotifyItem) => (item || {}).uri);
 
 const ListItem: React.FC<ListItemProps> = (props) => {
-  const { userQueue, editPlayback, item } = props;
-  const { id, album, name, artists, type, images, show } = item || {};
-  const { skipPlayback = () => {} } = editPlayback;
+  const { userQueue, editPlayback, item, linkToSpotify, index } = props;
+  const { album, name, artists, type, images, show, uri } = item || {};
+  const { startSpecificPlayback } = editPlayback;
   const isSong = type === 'track';
   const queueImages = isSong ? (album || {}).images : images;
   const subSection = isSong ? (artists || [])[0] : show;
-  return (
-    <div
-      className='flex rounded-md shadow-md my-4 hover:cursor-pointer'
-      onClick={() => skipToSong(userQueue, id, skipPlayback)}
-    >
+
+  const handleClick = () => {
+    if (!linkToSpotify) {
+      startSpecificPlayback({ uris: getQueueUris(userQueue, index) });
+    }
+  };
+
+  const renderBody = () => (
+    <div className='flex rounded-md shadow-md my-4 hover:cursor-pointer' onClick={handleClick}>
       <img
         src={
           ((queueImages || []).find(({ height }) => height === 640) || ((album || {}).images || [])[0] || {}).url || ''
@@ -45,6 +43,9 @@ const ListItem: React.FC<ListItemProps> = (props) => {
       </div>
     </div>
   );
+
+  // If we want to route to spotify, we wrap in anchor tag, otherwise we handle actions Via API
+  return linkToSpotify ? <a href={uri}>{renderBody()}</a> : renderBody();
 };
 
 export default ListItem;

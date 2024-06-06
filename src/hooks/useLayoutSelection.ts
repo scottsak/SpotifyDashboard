@@ -10,7 +10,6 @@ const useLayoutSelection = (): {
   useEffect(() => {
     let isMounted = true;
     chrome.runtime.sendMessage({ type: 'getLayoutSelection' }, (response) => {
-      console.log(response, 'response CE:TEST');
       if (!isMounted) {
         return;
       }
