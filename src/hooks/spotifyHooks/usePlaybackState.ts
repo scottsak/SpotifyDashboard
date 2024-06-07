@@ -16,7 +16,7 @@ const usePlaybackState = (): {
   displayError: boolean;
   needsTokenRefresh: boolean;
   editPlayback: EditPlaybackController;
-  loadingAfterEditPlayback: boolean;
+  loadingAfterEditPlayback: string;
 } => {
   const { token, error: tokenError } = useToken();
   const editPlayback = useEditPlayback();
@@ -26,7 +26,9 @@ const usePlaybackState = (): {
   const [error, setError] = useState<string>('');
   const [errorStatus, setErrorStatus] = useState<number | null>(null);
   const [consecutiveErrors, setConsecutiveErrors] = useState<number>(0);
-  const [loadingAfterEditPlayback, setLoadingAfterEditPlayback] = useState<boolean>(false);
+  const [loadingAfterEditPlayback, setLoadingAfterEditPlayback] = useState<string>('');
+
+  const { loading: editPlaybackLoading, inflightEdit } = editPlayback;
 
   useEffect(() => {
     let isMounted = true;
@@ -59,14 +61,14 @@ const usePlaybackState = (): {
         }
       } finally {
         if (loadingAfterEditPlayback) {
-          setLoadingAfterEditPlayback(false);
+          setLoadingAfterEditPlayback('');
         }
       }
     };
 
     // Stop polling if tab isn't focused or there are 3 consecutive errors
     // Refresh polling when an edit to playback is made to refresh the current state
-    if (tabFocused && consecutiveErrors < 2 && !editPlayback.loading) {
+    if (tabFocused && consecutiveErrors < 2 && !editPlaybackLoading) {
       fetchPlaybackState();
       intervalId = setInterval(fetchPlaybackState, pollingInterval);
     }
@@ -77,14 +79,14 @@ const usePlaybackState = (): {
         clearInterval(intervalId);
       }
     };
-  }, [token, pollingInterval, tabFocused, consecutiveErrors, editPlayback.loading, loadingAfterEditPlayback]);
+  }, [token, pollingInterval, tabFocused, consecutiveErrors, editPlaybackLoading, loadingAfterEditPlayback]);
 
   // Keep track of state loading until 1 fetch after edit to prioritize local state over playback state
   useEffect(() => {
-    if (editPlayback.loading) {
-      setLoadingAfterEditPlayback(true);
+    if (editPlaybackLoading) {
+      setLoadingAfterEditPlayback(inflightEdit);
     }
-  }, [editPlayback.loading]);
+  }, [editPlaybackLoading, inflightEdit]);
 
   return {
     playbackState,

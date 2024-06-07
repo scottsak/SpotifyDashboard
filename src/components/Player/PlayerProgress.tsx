@@ -1,13 +1,14 @@
 import React, { useCallback, useRef } from 'react';
 import { useProgressBar } from '../../hooks/useProgressBar';
 import formatMs from '../../util/msFormatted';
+import { EDIT_TYPES } from '../../lib/enums';
 
 type PlayerProgressProps = {
   progressPct: number;
   duration: number;
   progress: number;
   seekToPosition: ({ position_ms, device_id }: { position_ms: number; device_id?: string }) => void;
-  stateLoadingAfterEdit: boolean;
+  stateLoadingAfterEdit: string;
 };
 
 const PlayerProgress: React.FC<PlayerProgressProps> = (props) => {
@@ -24,7 +25,8 @@ const PlayerProgress: React.FC<PlayerProgressProps> = (props) => {
 
   const formattedDuration = formatMs(duration);
   const formattedProgress = formatMs(progress);
-  const pctToUse = dragging || stateLoadingAfterEdit ? dragPercentage : progressPct;
+  const seekLoading = stateLoadingAfterEdit === EDIT_TYPES.SEEK_TO_POSITION;
+  const pctToUse = dragging || seekLoading ? dragPercentage : progressPct;
   return (
     <div className='flex items-center'>
       <p>{formattedProgress}</p>
