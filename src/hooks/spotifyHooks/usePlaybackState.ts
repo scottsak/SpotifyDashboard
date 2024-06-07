@@ -16,6 +16,7 @@ const usePlaybackState = (): {
   displayError: boolean;
   needsTokenRefresh: boolean;
   editPlayback: EditPlaybackController;
+  loadingAfterEditPlayback: boolean;
 } => {
   const { token, error: tokenError } = useToken();
   const editPlayback = useEditPlayback();
@@ -25,6 +26,7 @@ const usePlaybackState = (): {
   const [error, setError] = useState<string>('');
   const [errorStatus, setErrorStatus] = useState<number | null>(null);
   const [consecutiveErrors, setConsecutiveErrors] = useState<number>(0);
+  const [loadingAfterEditPlayback, setLoadingAfterEditPlayback] = useState<boolean>(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -55,6 +57,10 @@ const usePlaybackState = (): {
           setError(message);
           clearInterval(intervalId);
         }
+      } finally {
+        if (loadingAfterEditPlayback) {
+          setLoadingAfterEditPlayback(false);
+        }
       }
     };
 
@@ -71,7 +77,14 @@ const usePlaybackState = (): {
         clearInterval(intervalId);
       }
     };
-  }, [token, pollingInterval, tabFocused, consecutiveErrors, editPlayback.loading]);
+  }, [token, pollingInterval, tabFocused, consecutiveErrors, editPlayback.loading, loadingAfterEditPlayback]);
+
+  // Keep track of state loading until 1 fetch after edit to prioritize local state over playback state
+  useEffect(() => {
+    if (editPlayback.loading) {
+      setLoadingAfterEditPlayback(true);
+    }
+  }, [editPlayback.loading]);
 
   return {
     playbackState,
@@ -80,6 +93,7 @@ const usePlaybackState = (): {
     displayError: !!tokenError || consecutiveErrors > 2,
     needsTokenRefresh: errorStatus === 401 && consecutiveErrors > 2,
     editPlayback,
+    loadingAfterEditPlayback,
   };
 };
 

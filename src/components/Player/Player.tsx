@@ -9,9 +9,10 @@ import SidebarCard from '../SkeletonLoaders/SidebarCardLoader';
 type PlayerProps = {
   playbackState: PlaybackState | null;
   editPlayback: EditPlaybackController;
+  stateLoadingAfterEdit: boolean;
 };
 
-const Player: React.FC<PlayerProps> = ({ playbackState, editPlayback }) => {
+const Player: React.FC<PlayerProps> = ({ playbackState, editPlayback, stateLoadingAfterEdit }) => {
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   const { progress_ms: progress = 0, is_playing, item } = playbackState || {};
   const {
@@ -28,6 +29,7 @@ const Player: React.FC<PlayerProps> = ({ playbackState, editPlayback }) => {
     startPlayback = () => {},
     skipPlayback = () => {},
     rewindPlayback = () => {},
+    seekToPosition = () => {},
   } = editPlayback;
   const isSong: boolean = type === 'track';
   const progressPct = progress && duration ? (progress / duration) * 100 : 0;
@@ -77,9 +79,10 @@ const Player: React.FC<PlayerProps> = ({ playbackState, editPlayback }) => {
           <div className='w-full'>
             <PlayerProgress
               progressPct={progressPct}
-              setProgressPct={() => {}}
               duration={duration}
               progress={progress}
+              seekToPosition={seekToPosition}
+              stateLoadingAfterEdit={stateLoadingAfterEdit}
             />
           </div>
         </div>

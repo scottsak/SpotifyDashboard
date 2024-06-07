@@ -4,6 +4,7 @@ import {
   stopPlayback as stopPlaybackService,
   skipPlayback as skipPlaybackService,
   rewindPlayback as rewindPlaybackService,
+  seekToPosition as seekToPositionService,
 } from '../../services/spotifyService/spotifyService';
 import useToken from '../useToken';
 
@@ -13,6 +14,7 @@ export interface EditPlaybackController {
   skipPlayback: () => Promise<void>;
   rewindPlayback: () => Promise<void>;
   startSpecificPlayback: ({ uris, contextUri }: { uris: string[]; contextUri?: string }) => Promise<void>;
+  seekToPosition: ({ position_ms, device_id }: { position_ms: number; device_id?: string }) => Promise<void>;
   loading: boolean;
   error: string | null;
 }
@@ -46,23 +48,27 @@ const useEditPlayback = (): EditPlaybackController => {
   };
 
   const startPlayback = async () => {
-    return await runRequest(startPlaybackService);
+    await runRequest(startPlaybackService);
   };
 
   const startSpecificPlayback = async ({ uris, contextUri }: { uris: string[]; contextUri?: string }) => {
-    return await runRequest(startPlaybackService, { uris: uris, ...(contextUri && { contextUri }) });
+    await runRequest(startPlaybackService, { uris: uris, ...(contextUri && { contextUri }) });
   };
 
   const stopPlayback = async () => {
-    return await runRequest(stopPlaybackService);
+    await runRequest(stopPlaybackService);
   };
 
   const skipPlayback = async () => {
-    return await runRequest(skipPlaybackService);
+    await runRequest(skipPlaybackService);
   };
 
   const rewindPlayback = async () => {
-    return await runRequest(rewindPlaybackService);
+    await runRequest(rewindPlaybackService);
+  };
+
+  const seekToPosition = async ({ position_ms, device_id }: { position_ms: number; device_id?: string }) => {
+    await runRequest(seekToPositionService, { position_ms, ...(device_id && { device_id }) });
   };
 
   return {
@@ -71,6 +77,7 @@ const useEditPlayback = (): EditPlaybackController => {
     stopPlayback,
     skipPlayback,
     rewindPlayback,
+    seekToPosition,
     loading,
     error,
   };
