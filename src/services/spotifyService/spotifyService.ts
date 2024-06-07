@@ -74,3 +74,12 @@ export const skipPlayback = async (token: string) => {
 export const rewindPlayback = async (token: string) => {
   return await fetchSpotifyData({ method: 'POST', endpoint: 'me/player/previous', token });
 };
+
+export const seekToPosition = async (token: string, body: { position_ms: number; device_id?: string }) => {
+  const { position_ms, device_id } = body || {};
+  return await fetchSpotifyData({
+    method: 'PUT',
+    endpoint: `me/player/seek?position_ms=${position_ms}${device_id ? `&device_id=${device_id}` : ''}`,
+    token,
+  });
+};
