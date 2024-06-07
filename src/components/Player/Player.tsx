@@ -9,7 +9,7 @@ import SidebarCard from '../SkeletonLoaders/SidebarCardLoader';
 type PlayerProps = {
   playbackState: PlaybackState | null;
   editPlayback: EditPlaybackController;
-  stateLoadingAfterEdit: boolean;
+  stateLoadingAfterEdit: string;
 };
 
 const Player: React.FC<PlayerProps> = ({ playbackState, editPlayback, stateLoadingAfterEdit }) => {
