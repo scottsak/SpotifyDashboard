@@ -10,6 +10,7 @@ export const SCOPES: string[] = [
 export const LAYOUT_SELECTIONS: string[] = ['default', 'album'];
 
 export const EDIT_TYPES: { [key: string]: string } = {
+  NO_EDIT: '',
   START_PLAYBACK: 'START_PLAYBACK',
   START_SPECIFIC_PLAYBACK: 'START_SPECIFIC_PLAYBACK',
   STOP_PLAYBACK: 'STOP_PLAYBACK',
