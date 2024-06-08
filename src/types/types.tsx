@@ -15,6 +15,18 @@ export interface PlaybackState {
   progress_ms: number;
   item?: SpotifyItem;
   context?: SpotifyContext;
+  device?: SpotifyDevice;
+}
+
+export interface SpotifyDevice {
+  id: string;
+  is_active: boolean;
+  is_private_session: boolean;
+  is_restricted: string;
+  name: string;
+  type: string;
+  volume_percent: number;
+  supports_volume: boolean;
 }
 
 export interface SpotifyContext {

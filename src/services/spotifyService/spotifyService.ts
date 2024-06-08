@@ -75,6 +75,15 @@ export const rewindPlayback = async (token: string) => {
   return await fetchSpotifyData({ method: 'POST', endpoint: 'me/player/previous', token });
 };
 
+export const setPlaybackVolume = async (token: string, body: { percentage: number; device_id?: string }) => {
+  const { percentage, device_id } = body || {};
+  return await fetchSpotifyData({
+    method: 'PUT',
+    endpoint: `me/player/volume?volume_percent=${percentage}${device_id ? `&device_id=${device_id}` : ''}`,
+    token,
+  });
+};
+
 export const seekToPosition = async (token: string, body: { position_ms: number; device_id?: string }) => {
   const { position_ms, device_id } = body || {};
   return await fetchSpotifyData({

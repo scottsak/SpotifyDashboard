@@ -5,6 +5,7 @@ import {
   skipPlayback as skipPlaybackService,
   rewindPlayback as rewindPlaybackService,
   seekToPosition as seekToPositionService,
+  setPlaybackVolume as setPlaybackVolumeService,
 } from '../../services/spotifyService/spotifyService';
 import useToken from '../useToken';
 import { EDIT_TYPES } from '../../lib/enums';
@@ -16,6 +17,7 @@ export interface EditPlaybackController {
   rewindPlayback: () => Promise<void>;
   startSpecificPlayback: ({ uris, contextUri }: { uris: string[]; contextUri?: string }) => Promise<void>;
   seekToPosition: ({ position_ms, device_id }: { position_ms: number; device_id?: string }) => Promise<void>;
+  editPlaybackVolume: ({ percentage, device_id }: { percentage: number; device_id?: string }) => Promise<void>;
   loading: boolean;
   error: string | null;
   inflightEdit: string;
@@ -93,6 +95,17 @@ const useEditPlayback = (): EditPlaybackController => {
     await runRequest(seekToPositionService, { position_ms, ...(device_id && { device_id }) });
   };
 
+  const editPlaybackVolume = async ({
+    percentage,
+    device_id,
+  }: {
+    percentage: number;
+    device_id?: string;
+  }): Promise<void> => {
+    setInflightEdit(EDIT_TYPES.UPDATE_VOLUME);
+    await runRequest(setPlaybackVolumeService, { percentage, ...(device_id && { device_id }) });
+  };
+
   return {
     startPlayback,
     startSpecificPlayback,
@@ -100,6 +113,7 @@ const useEditPlayback = (): EditPlaybackController => {
     skipPlayback,
     rewindPlayback,
     seekToPosition,
+    editPlaybackVolume,
     loading,
     error,
     inflightEdit,
