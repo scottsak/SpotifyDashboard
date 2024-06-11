@@ -15,6 +15,8 @@ export interface PlaybackState {
   progress_ms: number;
   item?: SpotifyItem;
   context?: SpotifyContext;
+  error: boolean;
+  status: number;
   device?: SpotifyDevice;
 }
 
@@ -78,4 +80,23 @@ export interface SpotifyArtist {
   id: string;
   name: string;
   uri: string;
+}
+
+export interface SpotifyProfile {
+  display_name: string;
+  id: string;
+}
+
+export interface SpotifyUserTop {
+  limit: number;
+  next: string;
+  previous: string | null;
+  total: number;
+}
+
+export interface SpotifyUserTopSongs extends SpotifyUserTop {
+  items: SpotifyItem[];
+}
+export interface SpotifyUserTopArtists extends SpotifyUserTop {
+  items: SpotifyArtist[];
 }

@@ -10,7 +10,7 @@ const PLAYING_INTERVAL: number = 1000;
 const IDLE_INTERVAL: number = 5000;
 
 const usePlaybackState = (): {
-  playbackState: any;
+  playbackState: PlaybackState | null;
   error?: string;
   errorStatus?: number | null;
   displayError: boolean;

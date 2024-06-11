@@ -17,8 +17,6 @@ const SPACE_DELIMITER = '%20';
 const SCOPES_URL_PARAM = SCOPES.join(SPACE_DELIMITER);
 const AUTH_URL = `${SPOTIFY_AUTHROIZE_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPES_URL_PARAM}&response_type=code&show_dialog=true`;
 
-const logError = (event, error) => console.error(`Error handling event: ${event}`, error);
-
 const setTokens = (accessToken, refreshToken) => {
   chrome.storage.local.set({
     accessToken,
@@ -89,6 +87,19 @@ const setLayoutSelection = (layoutSelection) => {
   });
 };
 
+const getPreferredName = ({ sendResponse }) => {
+  chrome.storage.local.get('preferredName', (data) => {
+    const preferredName = data.preferredName;
+    sendResponse(preferredName);
+  });
+};
+
+const setPreferredName = (preferredName) => {
+  chrome.storage.local.set({
+    preferredName,
+  });
+};
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   try {
     if (message.type === 'login') {
@@ -119,8 +130,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
       return true;
     }
+    if (message.type === 'getPreferredName') {
+      getPreferredName({ sendResponse });
+      return true;
+    }
+    if (message.type === 'setPreferredName') {
+      const { preferredName } = message.payload || {};
+      if (preferredName) {
+        setPreferredName({ preferredName });
+      }
+    }
   } catch (err) {
-    logError(message, err);
+    console.error(`Error handling event: ${message}`, error);
     sendResponse({
       error: err?.message || `Unknown error occurred for event: ${message}`,
     });

@@ -1,13 +1,13 @@
 import React from 'react';
 import useUserQueue from '../../hooks/spotifyHooks/useUserQueue';
 import ListItem from './ListItem';
-import { PlaybackState, SpotifyItem } from '../../types/types';
+import { PlaybackState } from '../../types/types';
 import SidebarCardLoader from '../SkeletonLoaders/SidebarCardLoader';
 import { EditPlaybackController } from '../../hooks/spotifyHooks/useEditPlayback';
 import useUserTopTracks from '../../hooks/spotifyHooks/useUserTopTracks';
 
 interface QueuedSongsProps {
-  playbackState: PlaybackState;
+  playbackState: PlaybackState | null;
   editPlayback: EditPlaybackController;
 }
 

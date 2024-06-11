@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getUserTracks } from '../../services/spotifyService/spotifyService';
+import { getUserTopTracks } from '../../services/spotifyService/spotifyService';
 import useToken from '../useToken';
 import { SpotifyItem } from '../../types/types';
 
@@ -21,7 +21,7 @@ const useUserTopTracks = (): TopTracksResponse => {
       return;
     }
     setLoading(true);
-    getUserTracks(token)
+    getUserTopTracks(token)
       .then((data) => {
         setUserTracks(data.items);
       })

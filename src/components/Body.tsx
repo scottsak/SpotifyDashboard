@@ -1,13 +1,13 @@
 import React from 'react';
 import TopSites from './TopSites';
-import Section3 from './Section3/Section3';
-import Section2 from './Section2/Section2';
+import Sidebar from './Sidebar/Section3';
+import DynamicLayout from './DynamicLayout/DynamicLayout';
 import { PlaybackState } from '../types/types';
 import { EditPlaybackController } from '../hooks/spotifyHooks/useEditPlayback';
 import useLayoutSelection from '../hooks/useLayoutSelection';
 
 type BodyProps = {
-  playbackState: PlaybackState;
+  playbackState: PlaybackState | null;
   editPlayback: EditPlaybackController;
   displayError: boolean;
   needsTokenRefresh: boolean;
@@ -22,7 +22,7 @@ const Body: React.FC<BodyProps> = (props) => {
         <TopSites layoutSelection={layoutSelection} setLayoutSelection={setLayoutSelection} />
       </div>
       <div className='flex-grow g-gray-300 h-full overflow-y-auto'>
-        <Section2
+        <DynamicLayout
           displayError={displayError}
           needsTokenRefresh={needsTokenRefresh}
           editPlayback={editPlayback}
@@ -31,7 +31,7 @@ const Body: React.FC<BodyProps> = (props) => {
         />
       </div>
       <div className='flex-none w-[300px] bg-darker h-full overflow-y-scroll'>
-        <Section3 playbackState={playbackState} editPlayback={editPlayback} />
+        <Sidebar playbackState={playbackState} editPlayback={editPlayback} />
       </div>
     </div>
   );
