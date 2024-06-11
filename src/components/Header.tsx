@@ -31,12 +31,7 @@ type HeaderProps = {};
 const Header: React.FC<HeaderProps> = () => {
   const { bookmarks } = useBookmarks();
   const { topSites } = useTopSites();
-  return (
-    <>
-      {/* {bookmarks && <LinkSection links={bookmarks} marginTop={false} />} */}
-      {topSites && <LinkSection links={topSites} marginTop={!!bookmarks} />}
-    </>
-  );
+  return <>{topSites && <LinkSection links={topSites} marginTop={!!bookmarks} />}</>;
 };
 
 export default Header;

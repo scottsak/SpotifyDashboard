@@ -3,12 +3,12 @@ import QueuedSongs from './QueuedSongs';
 import { PlaybackState } from '../../types/types';
 import { EditPlaybackController } from '../../hooks/spotifyHooks/useEditPlayback';
 
-interface Section3Props {
-  playbackState: PlaybackState;
+interface SidebarProps {
+  playbackState: PlaybackState | null;
   editPlayback: EditPlaybackController;
 }
 
-const Section3: React.FC<Section3Props> = ({ playbackState, editPlayback }) => {
+const Sidebar: React.FC<SidebarProps> = ({ playbackState, editPlayback }) => {
   return (
     <div>
       <QueuedSongs playbackState={playbackState} editPlayback={editPlayback} />
@@ -16,4 +16,4 @@ const Section3: React.FC<Section3Props> = ({ playbackState, editPlayback }) => {
   );
 };
 
-export default Section3;
+export default Sidebar;
