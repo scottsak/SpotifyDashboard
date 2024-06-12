@@ -4,7 +4,7 @@ type MouseActivity = React.MouseEvent<HTMLElement> | MouseEvent;
 
 type ActivityEvent = MouseActivity | React.TouchEvent<HTMLElement> | TouchEvent;
 
-type UseProgressBarReturn = {
+type UseRangeSliderReturn = {
   dragging: boolean;
   dragPercentage: Number;
   isHovered: boolean;
@@ -27,11 +27,15 @@ const getEventX = (evt: ActivityEvent) => {
   return isClickEvent(evt) ? evt.pageX : evt.changedTouches[0].pageX;
 };
 
-export function useProgressBar(
+const calculateCommit = (maximum: number, minimum: number, pct: number) => Math.max(Math.min(pct, maximum), minimum);
+
+export function useRangeSlider(
   barRef: RefObject<HTMLElement>,
   commit: (percentage: number) => void,
-  commitImmediately = false
-): UseProgressBarReturn {
+  commitImmediately = false,
+  maximum: number,
+  minimum: number
+): UseRangeSliderReturn {
   const [mouseDown, setMouseDown] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -41,7 +45,7 @@ export function useProgressBar(
       if (!mouseDown || !barRef.current) return;
       const rect = barRef.current.getBoundingClientRect();
       const pos = (getEventX(ev) - rect.left) / barRef.current.offsetWidth;
-      setProgress(pos * 100);
+      setProgress(calculateCommit(maximum, minimum, pos * 100));
       if (commitImmediately) commit(pos);
     };
 
@@ -52,7 +56,7 @@ export function useProgressBar(
       if (!barRef.current) return;
       const rect = barRef.current.getBoundingClientRect();
       const pos = (getEventX(ev) - rect.left) / barRef.current.offsetWidth;
-      commit(pos);
+      commit(calculateCommit(maximum, minimum, pos * 100));
     };
 
     const mouseEnter = (ev: ActivityEvent) => {
@@ -84,7 +88,7 @@ export function useProgressBar(
       document.removeEventListener('mouseup', mouseUp);
       document.removeEventListener('touchend', mouseUp);
     };
-  }, [mouseDown, barRef, commit, commitImmediately]);
+  }, [mouseDown, barRef, commit, commitImmediately, maximum, minimum]);
 
   const dragMouseDown = useCallback(
     (ev: ActivityEvent) => {
@@ -92,9 +96,9 @@ export function useProgressBar(
       if (!barRef.current) return;
       const rect = barRef.current.getBoundingClientRect();
       const pos = ((getEventX(ev) - rect.left) / barRef.current.offsetWidth) * 100;
-      setProgress(pos);
+      setProgress(calculateCommit(maximum, minimum, pos));
     },
-    [setProgress, barRef]
+    [setProgress, barRef, maximum, minimum]
   );
 
   return {
