@@ -1,6 +1,6 @@
 import React from 'react';
 import TopSites from './TopSites';
-import Sidebar from './Sidebar/Section3';
+import Sidebar from './Sidebar/Sidebar';
 import DynamicLayout from './DynamicLayout/DynamicLayout';
 import { PlaybackState } from '../types/types';
 import { EditPlaybackController } from '../hooks/spotifyHooks/useEditPlayback';
