@@ -34,7 +34,7 @@ const QueuedSongs: React.FC<QueuedSongsProps> = (props) => {
   });
 
   const isLoading = (topTracksLoading || queueLoading) && !userQueue.length;
-  const shouldRenderTopTracks = userTopTracks.length && !isLoading && !userQueue.length;
+  const shouldRenderTopTracks = !!userTopTracks.length && !isLoading && !userQueue.length;
   return (
     <div className='p-4'>
       {currentlyPlaying && (
