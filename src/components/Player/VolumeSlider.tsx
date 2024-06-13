@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { SpeakerWaveIcon, SpeakerXMarkIcon } from '@heroicons/react/24/outline';
 import { EDIT_TYPES } from '../../lib/enums';
+import StyledProgressBar from '../StyledRangeSlider';
 
 interface VolumeSliderProps {
   spotifyVolume: number;
@@ -17,64 +18,29 @@ const VolumeSlider: React.FC<VolumeSliderProps> = ({
   editPlaybackVolume,
   stateLoadingAfterEdit,
 }) => {
-  const [playbackVolumeState, setPlaybackVolume] = useState<number>(0);
-  const [isDragging, setIsDragging] = useState<boolean>(false);
-  const seekLoading = stateLoadingAfterEdit === EDIT_TYPES.UPDATE_VOLUME;
-  const [waitingForUpdate, setWaitingForUpdate] = useState<boolean>(false);
-
-  if (waitingForUpdate) {
-    if (playbackVolumeState == spotifyVolume) {
-      setWaitingForUpdate(false);
-    }
-  }
-
-  useEffect(() => {
-    if (seekLoading) {
-      setWaitingForUpdate(true);
-      setIsDragging(false);
-    }
-  }, [stateLoadingAfterEdit]);
-
-  const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsDragging(true);
-    setPlaybackVolume(Number(event.target.value));
-  };
-
-  const handleVolumeChangeEnd = (event: React.MouseEvent<HTMLInputElement> | React.TouchEvent<HTMLInputElement>) => {
-    editPlaybackVolume({ percentage: Number(playbackVolumeState || 0) });
-  };
-
   const renderSpeakerIcon = () => {
-    if (!supports_volume || (!spotifyVolume && !playbackVolumeState)) {
-      return <SpeakerXMarkIcon className={`h-6 w-6 ${supports_volume ? 'text-gray-500' : 'text-gray-600'}`} />;
+    if (!supports_volume || !spotifyVolume) {
+      return <SpeakerXMarkIcon className={`h-5 w-5 ${supports_volume ? 'text-gray-500' : 'text-gray-600'}`} />;
     }
-    return <SpeakerWaveIcon className='h-6 w-6 text-gray-400' />;
+    return <SpeakerWaveIcon className='h-5 w-5 text-gray-400' />;
   };
 
-  const renderVolumePercentage = (): number => {
-    if (!supports_volume) {
-      return 0;
-    } else if (isDragging || seekLoading || waitingForUpdate) {
-      return playbackVolumeState;
-    } else {
-      return spotifyVolume;
-    }
+  const commit = (pct: number) => {
+    editPlaybackVolume({ percentage: Math.round(pct) });
   };
-
   return (
-    <div className='p-2 flex items-center space-x-2'>
+    <div className='p-2 flex items-center text-right'>
       {renderSpeakerIcon()}
-      <input
-        type='range'
-        min='0'
-        max='100'
-        disabled={!supports_volume}
-        value={renderVolumePercentage()}
-        onChange={handleVolumeChange}
-        onTouchEnd={handleVolumeChangeEnd}
-        onMouseUp={handleVolumeChangeEnd}
-        className='w-full h-2 accent-green-500 bg-gray-200 dark:bg-gray-700'
-      />
+      <div className='w-[100px]'>
+        <StyledProgressBar
+          commit={commit}
+          overridePct={supports_volume ? spotifyVolume : 0}
+          stateLoadingToAwait={EDIT_TYPES.UPDATE_VOLUME}
+          stateLoadingAfterEdit={stateLoadingAfterEdit}
+          maximum={100}
+          minimum={0}
+        />
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { getPlaybackState } from '../../services/spotifyService/spotifyService';
 import useToken from '../useToken';
 import { PlaybackState } from '../../types/types';
@@ -30,56 +30,47 @@ const usePlaybackState = (): {
 
   const { loading: editPlaybackLoading, inflightEdit } = editPlayback;
 
+  const fetchPlaybackState = useCallback(async () => {
+    if (!token) {
+      setError('No token available');
+      return;
+    }
+
+    try {
+      const playbackStateData = await getPlaybackState(token);
+      if (playbackStateData.error) {
+        setConsecutiveErrors((prevErrors) => prevErrors + 1);
+        setErrorStatus(playbackStateData.status);
+      }
+      setPlaybackState(playbackStateData);
+      const newInterval = playbackStateData.is_playing ? PLAYING_INTERVAL : IDLE_INTERVAL;
+      if (pollingInterval !== newInterval) {
+        setPollingInterval(newInterval);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      setError(message);
+    } finally {
+      if (loadingAfterEditPlayback && !editPlaybackLoading) {
+        setLoadingAfterEditPlayback('');
+      }
+    }
+  }, [token, pollingInterval, loadingAfterEditPlayback, editPlaybackLoading]);
+
+  // Effect to enact playback polling
   useEffect(() => {
-    let isMounted = true;
     let intervalId: NodeJS.Timer | undefined;
-
-    const fetchPlaybackState = async () => {
-      if (!token) {
-        setError('No token available');
-        return;
-      }
-
-      try {
-        const playbackStateData = await getPlaybackState(token);
-        if (playbackStateData.error) {
-          setConsecutiveErrors(consecutiveErrors + 1);
-          setErrorStatus(playbackStateData.status);
-        }
-        if (isMounted) {
-          setPlaybackState(playbackStateData);
-          const newInterval = playbackStateData.is_playing ? PLAYING_INTERVAL : IDLE_INTERVAL;
-          if (pollingInterval !== newInterval) {
-            setPollingInterval(newInterval);
-          }
-        }
-      } catch (error) {
-        if (isMounted) {
-          const message = error instanceof Error ? error.message : 'Unknown error';
-          setError(message);
-          clearInterval(intervalId);
-        }
-      } finally {
-        if (loadingAfterEditPlayback) {
-          setLoadingAfterEditPlayback('');
-        }
-      }
-    };
-
     // Stop polling if tab isn't focused or there are 3 consecutive errors
-    // Refresh polling when an edit to playback is made to refresh the current state
-    if (tabFocused && consecutiveErrors < 2 && !editPlaybackLoading) {
+    if (tabFocused && consecutiveErrors < 2) {
       fetchPlaybackState();
       intervalId = setInterval(fetchPlaybackState, pollingInterval);
     }
-
     return () => {
-      isMounted = false;
       if (intervalId) {
         clearInterval(intervalId);
       }
     };
-  }, [token, pollingInterval, tabFocused, consecutiveErrors, editPlaybackLoading, loadingAfterEditPlayback]);
+  }, [fetchPlaybackState, tabFocused, consecutiveErrors, pollingInterval]);
 
   // Keep track of state loading until 1 fetch after edit to prioritize local state over playback state
   useEffect(() => {
