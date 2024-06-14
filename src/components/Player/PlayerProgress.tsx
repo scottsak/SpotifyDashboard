@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import formatMs from '../../util/msFormatted';
-import StyledProgressBar from '../StyledRangeSlider';
+import StyledRangeSlider from '../StyledRangeSlider';
 import { EDIT_TYPES } from '../../lib/enums';
 
 type PlayerProgressProps = {
@@ -26,7 +26,7 @@ const PlayerProgress: React.FC<PlayerProgressProps> = (props) => {
   return (
     <div className='flex items-center'>
       <p>{formattedProgress}</p>
-      <StyledProgressBar
+      <StyledRangeSlider
         commit={commit}
         stateLoadingToAwait={EDIT_TYPES.SEEK_TO_POSITION}
         overridePct={progressPct}

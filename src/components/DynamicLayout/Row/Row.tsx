@@ -8,7 +8,7 @@ interface RowOfCardsProps {
 }
 
 const RowOfCards: React.FC<RowOfCardsProps> = ({ editPlayback }) => {
-  const { userTopTracks } = useUserTopTracks();
+  const { userTopTracks } = useUserTopTracks({});
   return (
     <div className='overflow-x-scroll whitespace-nowrap p-4 bg-transparent'>
       {userTopTracks.map((card) => (

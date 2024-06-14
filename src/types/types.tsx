@@ -74,6 +74,8 @@ export interface SpotifyAlbum {
   album_type: string;
   uri: string;
   images: Images[];
+  id: string;
+  releaseDate: string;
 }
 
 export interface SpotifyArtist {
@@ -100,3 +102,5 @@ export interface SpotifyUserTopSongs extends SpotifyUserTop {
 export interface SpotifyUserTopArtists extends SpotifyUserTop {
   items: SpotifyArtist[];
 }
+
+export type TopItemsTimeFrames = 'medium_term' | 'short_term' | 'long_term';

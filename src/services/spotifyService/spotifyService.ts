@@ -1,3 +1,4 @@
+import { TopItemsTimeFrames } from '../../types/types';
 import { PlaybackState, SpotifyItem, SpotifyProfile, SpotifyUserTopSongs } from '../../types/types';
 import refreshAccessToken from './refreshToken';
 
@@ -53,8 +54,9 @@ export const getPlaybackState = async (token: string): Promise<PlaybackState> =>
   return fetchSpotifyData({ endpoint: 'me/player?additional_types=track%2Cepisode', token });
 };
 
-export const getUserTopTracks = async (token: string): Promise<SpotifyUserTopSongs> => {
-  return fetchSpotifyData({ endpoint: 'me/top/tracks', token });
+export const getUserTopTracks = async (token: string, body?: any): Promise<SpotifyUserTopSongs> => {
+  const { timeFrame }: { timeFrame: TopItemsTimeFrames } = body || {};
+  return fetchSpotifyData({ endpoint: `me/top/tracks?${timeFrame ? `time_range=${timeFrame}` : ''}`, token });
 };
 
 export const getUserQueue = async (token: string) => {
