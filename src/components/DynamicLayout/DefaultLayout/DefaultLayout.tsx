@@ -1,10 +1,16 @@
 import React from 'react';
 import useTime from '../../../hooks/useTime';
 import EditableName from './EditableName';
+import TopSongs from './TopSongs';
+import { EditPlaybackController } from '../../../hooks/spotifyHooks/useEditPlayback';
+import { PlaybackState } from '../../../types/types';
 
-interface DefaultLayoutProps {}
+interface DefaultLayoutProps {
+  editPlayback: EditPlaybackController;
+  playbackState: PlaybackState;
+}
 
-const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
+const DefaultLayout: React.FC<DefaultLayoutProps> = ({ editPlayback, playbackState }) => {
   const { formattedTime, formattedDate, timeFrame } = useTime();
   return (
     <div className='flex flex-col items-center justify-center h-full select-none'>
@@ -15,6 +21,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
           Good {timeFrame}, <span className='relative'>{<EditableName />}</span>
         </p>
       </div>
+      <TopSongs editPlayback={editPlayback} playbackState={playbackState} />
     </div>
   );
 };

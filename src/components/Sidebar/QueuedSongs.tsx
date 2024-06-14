@@ -21,7 +21,7 @@ const renderSkeletons = () =>
     ));
 
 const QueuedSongs: React.FC<QueuedSongsProps> = (props) => {
-  const { userTopTracks, loading: topTracksLoading } = useUserTopTracks();
+  const { userTopTracks, loading: topTracksLoading } = useUserTopTracks({});
   const { playbackState, editPlayback } = props || {};
   const { item } = playbackState || {};
   const currentSongId = (item || {}).id || '';

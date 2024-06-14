@@ -19,3 +19,9 @@ export const EDIT_TYPES: { [key: string]: string } = {
   SEEK_TO_POSITION: 'SEEK_TO_POSITION',
   UPDATE_VOLUME: 'UPDATE_VOLUME',
 };
+
+export const TIME_FRAME_STRINGS = {
+  medium_term: 'Past Six Months',
+  short_term: 'Past Month',
+  long_term: 'Past Year',
+};

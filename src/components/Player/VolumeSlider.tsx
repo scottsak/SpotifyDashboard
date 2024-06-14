@@ -1,7 +1,7 @@
 import React from 'react';
 import { SpeakerWaveIcon, SpeakerXMarkIcon } from '@heroicons/react/24/outline';
 import { EDIT_TYPES } from '../../lib/enums';
-import StyledProgressBar from '../StyledRangeSlider';
+import StyledRangeSlider from '../StyledRangeSlider';
 
 interface VolumeSliderProps {
   spotifyVolume: number;
@@ -32,7 +32,7 @@ const VolumeSlider: React.FC<VolumeSliderProps> = ({
     <div className='p-2 flex items-center text-right'>
       {renderSpeakerIcon()}
       <div className='w-[100px]'>
-        <StyledProgressBar
+        <StyledRangeSlider
           commit={commit}
           overridePct={supports_volume ? spotifyVolume : 0}
           stateLoadingToAwait={EDIT_TYPES.UPDATE_VOLUME}

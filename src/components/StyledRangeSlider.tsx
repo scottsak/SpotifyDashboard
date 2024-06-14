@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useRangeSlider } from '../hooks/useRangeSlider';
 
-type ProgressBarProps = {
+type RangeSliderProps = {
   commit: (percentage: number) => void;
   overridePct?: number;
   stateLoadingToAwait?: string;
@@ -10,7 +10,7 @@ type ProgressBarProps = {
   minimum: number;
 };
 
-const StyledProgressBar: React.FC<ProgressBarProps> = ({
+const StyledRangeSlider: React.FC<RangeSliderProps> = ({
   commit,
   stateLoadingToAwait,
   overridePct,
@@ -48,4 +48,4 @@ const StyledProgressBar: React.FC<ProgressBarProps> = ({
   );
 };
 
-export default StyledProgressBar;
+export default StyledRangeSlider;

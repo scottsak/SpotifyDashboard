@@ -13,9 +13,17 @@ interface DynamicLayoutProps {
   layoutSelection: string;
 }
 
-const renderLayout = ({ layoutSelection, playbackState }: { layoutSelection: string; playbackState: any }) => {
+const renderLayout = ({
+  layoutSelection,
+  playbackState,
+  editPlayback,
+}: {
+  layoutSelection: string;
+  playbackState: any;
+  editPlayback: EditPlaybackController;
+}) => {
   if (layoutSelection === 'default') {
-    return <DefaultLayout />;
+    return <DefaultLayout editPlayback={editPlayback} playbackState={playbackState} />;
   } else if (layoutSelection === 'album') {
     return <AlbumLayout playbackState={playbackState} />;
   }
@@ -26,6 +34,7 @@ const DynamicLayout: React.FC<DynamicLayoutProps> = ({
   needsTokenRefresh,
   layoutSelection,
   playbackState,
+  editPlayback,
 }) => {
   return (
     <div className='relative flex flex-col justify-between h-full'>
@@ -35,7 +44,7 @@ const DynamicLayout: React.FC<DynamicLayoutProps> = ({
           promptLogin={true}
         />
       )}
-      {renderLayout({ layoutSelection, playbackState })}
+      {renderLayout({ layoutSelection, playbackState, editPlayback })}
     </div>
   );
 };

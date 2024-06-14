@@ -2,16 +2,17 @@ import { useEffect, useState } from 'react';
 import { getUserTopTracks } from '../../services/spotifyService/spotifyService';
 import useToken from '../useToken';
 import { SpotifyItem } from '../../types/types';
+import { TopItemsTimeFrames } from '../../types/types';
 
 interface TopTracksResponse {
-  loading: Boolean;
+  loading: boolean;
   error: string;
   userTopTracks: SpotifyItem[];
 }
 
-const useUserTopTracks = (): TopTracksResponse => {
+const useUserTopTracks = ({ timeFrame }: { timeFrame?: TopItemsTimeFrames }): TopTracksResponse => {
   const { token, error: tokenError } = useToken();
-  const [userTopTracks, setUserTracks] = useState<SpotifyItem[]>([]);
+  const [userTopTracks, setUserTopTracks] = useState<SpotifyItem[]>([]);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -21,9 +22,9 @@ const useUserTopTracks = (): TopTracksResponse => {
       return;
     }
     setLoading(true);
-    getUserTopTracks(token)
+    getUserTopTracks(token, { timeFrame })
       .then((data) => {
-        setUserTracks(data.items);
+        setUserTopTracks(data.items);
       })
       .catch((err) => {
         setError(err.message);
@@ -31,7 +32,7 @@ const useUserTopTracks = (): TopTracksResponse => {
       .finally(() => {
         setLoading(false);
       });
-  }, [token]);
+  }, [token, timeFrame]);
 
   return { userTopTracks: userTopTracks || [], error: error || tokenError, loading };
 };
