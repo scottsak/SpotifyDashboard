@@ -12,6 +12,7 @@ const SCOPES = [
   'user-modify-playback-state',
   'streaming',
   'user-top-read',
+  'user-read-recently-played',
 ];
 const SPACE_DELIMITER = '%20';
 const SCOPES_URL_PARAM = SCOPES.join(SPACE_DELIMITER);

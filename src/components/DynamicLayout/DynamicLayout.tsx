@@ -4,6 +4,7 @@ import { PlaybackState } from '../../types/types';
 import { EditPlaybackController } from '../../hooks/spotifyHooks/useEditPlayback';
 import AlbumLayout from './AlbumLayout/AlbumLayout';
 import DefaultLayout from './DefaultLayout/DefaultLayout';
+import Stats from './Stats/Stats';
 
 interface DynamicLayoutProps {
   displayError: boolean;
@@ -26,6 +27,8 @@ const renderLayout = ({
     return <DefaultLayout editPlayback={editPlayback} playbackState={playbackState} />;
   } else if (layoutSelection === 'album') {
     return <AlbumLayout playbackState={playbackState} />;
+  } else if (layoutSelection === 'stats') {
+    return <Stats playbackState={playbackState} editPlayback={editPlayback} />;
   }
 };
 
