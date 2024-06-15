@@ -82,11 +82,31 @@ export interface SpotifyArtist {
   id: string;
   name: string;
   uri: string;
+  images: Images[];
+  href: string;
 }
 
 export interface SpotifyProfile {
   display_name: string;
   id: string;
+}
+
+export interface CardItem {
+  id: string;
+  uri: string;
+  images: Images[] | undefined;
+  primaryText: string;
+  secondaryText: string;
+}
+
+export interface SpotifyTrack {
+  album: SpotifyAlbum;
+  artists: SpotifyArtist[];
+  id: string;
+  name: string;
+  popularity: number;
+  duration_ms: number;
+  uri: string;
 }
 
 export interface SpotifyUserTop {
@@ -104,3 +124,27 @@ export interface SpotifyUserTopArtists extends SpotifyUserTop {
 }
 
 export type TopItemsTimeFrames = 'medium_term' | 'short_term' | 'long_term';
+export interface Cursor {
+  before: string;
+  after: string;
+}
+
+export interface RecentlyPlayedItem {
+  played_at: string;
+  track: SpotifyTrack;
+}
+
+export interface RecentlyPlayedData {
+  items: RecentlyPlayedItem[];
+  total: number;
+  next: string;
+  href: string;
+  cursors: Cursor | null;
+}
+
+export interface ArtistsStats {
+  count: number;
+  href: string;
+  id: string;
+  name: string;
+}

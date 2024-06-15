@@ -1,5 +1,12 @@
 import { TopItemsTimeFrames } from '../../types/types';
-import { PlaybackState, SpotifyItem, SpotifyProfile, SpotifyUserTopSongs } from '../../types/types';
+import {
+  PlaybackState,
+  SpotifyItem,
+  SpotifyProfile,
+  SpotifyUserTopSongs,
+  SpotifyUserTopArtists,
+  RecentlyPlayedData,
+} from '../../types/types';
 import refreshAccessToken from './refreshToken';
 
 const BASE_URL = 'https://api.spotify.com/v1';
@@ -59,8 +66,29 @@ export const getUserTopTracks = async (token: string, body?: any): Promise<Spoti
   return fetchSpotifyData({ endpoint: `me/top/tracks?${timeFrame ? `time_range=${timeFrame}` : ''}`, token });
 };
 
+export const getUserTopArtists = async (
+  token: string,
+  body: { time_range: string; limit?: string }
+): Promise<SpotifyUserTopArtists> => {
+  const { time_range, limit } = body;
+  return fetchSpotifyData({ endpoint: `me/top/artists${time_range ? `?time_range=${time_range}` : ''}`, token });
+};
+
 export const getUserQueue = async (token: string) => {
   return fetchSpotifyData({ endpoint: 'me/player/queue', token });
+};
+
+export const getRecentlyPlayedTracks = async (
+  token: string,
+  body?: { limit?: number; after?: number; before?: number }
+): Promise<RecentlyPlayedData> => {
+  const { limit, after, before } = body || {};
+  return await fetchSpotifyData({
+    endpoint: `me/player/recently-played?limit=${limit ? limit : 50}${after ? `&after=${after}` : ''}${
+      before ? `&before=${before}` : ''
+    }`,
+    token,
+  });
 };
 
 export const getCurrentUserProfile = async (token: string): Promise<SpotifyProfile> => {

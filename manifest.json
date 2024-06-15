@@ -30,7 +30,8 @@
       "user-modify-playback-state",
       "user-read-currently-playing",
       "streaming",
-      "user-top-read"
+      "user-top-read",
+      "user-read-recently-played"
     ],
     "redirect_uris": ["http://localhost/", "https://localhost/"]
   }
