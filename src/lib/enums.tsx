@@ -5,9 +5,10 @@ export const SCOPES: string[] = [
   'streaming',
   'web-playback',
   'user-top-read',
+  'user-read-recently-played',
 ];
 
-export const LAYOUT_SELECTIONS: string[] = ['default', 'album'];
+export const LAYOUT_SELECTIONS: string[] = ['default', 'album', 'stats'];
 
 export const EDIT_TYPES: { [key: string]: string } = {
   NO_EDIT: '',

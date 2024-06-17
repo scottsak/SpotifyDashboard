@@ -1,18 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from './Card';
-import useUserTopTracks from '../../../hooks/spotifyHooks/useUserTopTracks';
-import { EditPlaybackController } from '../../../hooks/spotifyHooks/useEditPlayback';
+import { CardItem } from '../../../types/types';
 
 interface RowOfCardsProps {
-  editPlayback: EditPlaybackController;
+  cards: CardItem[];
 }
 
-const RowOfCards: React.FC<RowOfCardsProps> = ({ editPlayback }) => {
-  const { userTopTracks } = useUserTopTracks({});
+const RowOfCards: React.FC<RowOfCardsProps> = ({ cards }) => {
   return (
     <div className='overflow-x-scroll whitespace-nowrap p-4 bg-transparent'>
-      {userTopTracks.map((card) => (
-        <Card card={card} key={card.id} editPlayback={editPlayback} />
+      {(cards || []).map((card, idx) => (
+        <Card card={card} key={card.id} idx={idx} />
       ))}
     </div>
   );
