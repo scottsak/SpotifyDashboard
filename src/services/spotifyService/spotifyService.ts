@@ -112,6 +112,20 @@ export const rewindPlayback = async (token: string): Promise<void> => {
   return await fetchSpotifyData({ method: 'POST', endpoint: 'me/player/previous', token });
 };
 
+export const getAvailableDevices = async (token: string) => {
+  return await fetchSpotifyData({ endpoint: 'me/player/devices', token });
+};
+
+export const updateDevice = async (token: string, body: { device_id: string }): Promise<void> => {
+  const { device_id } = body || {};
+  return fetchSpotifyData({
+    method: 'PUT',
+    endpoint: 'me/player',
+    token,
+    body: { device_ids: [device_id] },
+  });
+};
+
 export const setPlaybackVolume = async (
   token: string,
   body: { percentage: number; device_id?: string }
