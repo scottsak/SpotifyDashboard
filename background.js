@@ -22,6 +22,7 @@ const setTokens = (accessToken, refreshToken) => {
   chrome.storage.local.set({
     accessToken,
     ...(!!refreshToken && { refreshToken }),
+    cachedData: {}, // Clear out cache data when token changes
   });
 };
 
@@ -101,6 +102,27 @@ const setPreferredName = (preferredName) => {
   });
 };
 
+const getCachedData = ({ sendResponse, endpoint }) => {
+  chrome.storage.local.get('cachedData', (data) => {
+    const cachedData = data.cachedData || {};
+    sendResponse(cachedData[endpoint]);
+  });
+};
+
+const setCachedData = async ({ data, endpoint, cacheExpiration }) => {
+  const existing = await chrome.storage.local.get('cachedData');
+  const { cachedData: existingCachedData } = existing || {};
+  chrome.storage.local.set({
+    cachedData: {
+      ...existingCachedData,
+      [endpoint]: {
+        ...data,
+        cacheExpiration,
+      },
+    },
+  });
+};
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   try {
     if (message.type === 'login') {
@@ -139,6 +161,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       const { preferredName } = message.payload || {};
       if (preferredName) {
         setPreferredName({ preferredName });
+      }
+    }
+    if (message.type === 'getCachedData') {
+      const { endpoint } = message.payload || {};
+      getCachedData({ sendResponse, endpoint });
+      return true;
+    }
+    if (message.type === 'setCachedData') {
+      const { endpoint, data, cacheExpiration } = message.payload || {};
+      if (data && endpoint) {
+        setCachedData({ data, endpoint, cacheExpiration });
       }
     }
   } catch (err) {
