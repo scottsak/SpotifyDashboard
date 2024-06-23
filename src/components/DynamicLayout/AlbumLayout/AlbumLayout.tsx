@@ -2,7 +2,7 @@ import React from 'react';
 import { PlaybackState } from '../../../types/types';
 
 interface AlbumLayout {
-  playbackState: PlaybackState;
+  playbackState: PlaybackState | null;
 }
 
 const RowOfCards: React.FC<AlbumLayout> = ({ playbackState }) => {

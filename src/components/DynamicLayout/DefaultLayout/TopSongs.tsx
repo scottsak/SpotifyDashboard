@@ -9,14 +9,14 @@ import { EditPlaybackController } from '../../../hooks/spotifyHooks/useEditPlayb
 
 interface TopSongsProps {
   editPlayback: EditPlaybackController;
-  playbackState: PlaybackState;
+  playbackState: PlaybackState | null;
 }
 
-const TopItem: React.FC<{ item: SpotifyItem; editPlayback: EditPlaybackController; playbackState: PlaybackState }> = ({
-  item,
-  editPlayback,
-  playbackState,
-}) => {
+const TopItem: React.FC<{
+  item: SpotifyItem;
+  editPlayback: EditPlaybackController;
+  playbackState: PlaybackState | null;
+}> = ({ item, editPlayback, playbackState }) => {
   const transformedItem = transformSpotifyItem(item);
   const { startSpecificPlayback } = editPlayback;
   const { smallAlbumImage, name, albumName = '', uri } = transformedItem || {};

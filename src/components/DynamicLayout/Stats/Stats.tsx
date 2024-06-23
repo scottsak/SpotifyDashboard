@@ -5,7 +5,7 @@ import Charts from './Charts';
 import TopItems from './TopItems';
 
 interface Stats {
-  playbackState: PlaybackState;
+  playbackState: PlaybackState | null;
   editPlayback: any;
 }
 
