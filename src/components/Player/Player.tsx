@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { BackwardIcon, ForwardIcon, PauseIcon, PlayIcon, RadioIcon } from '@heroicons/react/24/outline';
+import { BackwardIcon, ForwardIcon, PauseIcon, PlayIcon } from '@heroicons/react/24/outline';
 import PlayerProgress from './PlayerProgress';
 import { PlaybackState } from '../../types/types';
 import VolumeSlider from './VolumeSlider';
 import ScrollingText from '../ScrollingText';
 import { EditPlaybackController } from '../../hooks/spotifyHooks/useEditPlayback';
 import SidebarCard from '../SkeletonLoaders/SidebarCardLoader';
+import DeviceToggle from './DeviceToggle';
 
 type PlayerProps = {
   playbackState: PlaybackState | null;
@@ -16,7 +17,7 @@ type PlayerProps = {
 const Player: React.FC<PlayerProps> = ({ playbackState, editPlayback, stateLoadingAfterEdit }) => {
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   const { progress_ms: progress = 0, is_playing, item, device } = playbackState || {};
-  const { volume_percent = 0, supports_volume = true } = device || {};
+  const { volume_percent = 0, supports_volume = true, id } = device || {};
   const {
     name = '',
     artists = [],
@@ -33,6 +34,7 @@ const Player: React.FC<PlayerProps> = ({ playbackState, editPlayback, stateLoadi
     rewindPlayback = () => {},
     seekToPosition = () => {},
     editPlaybackVolume = () => {},
+    changeDevice = () => {},
   } = editPlayback;
   const isSong: boolean = type === 'track';
   const progressPct = progress && duration ? (progress / duration) * 100 : 0;
@@ -92,9 +94,7 @@ const Player: React.FC<PlayerProps> = ({ playbackState, editPlayback, stateLoadi
       </div>
       <div className='col-span-3 flex justify-end'>
         <div className='flex items-center space-x-2'>
-          <button className='p-2 focus:outline-none'>
-            <RadioIcon className='h-5 w-5 text-gray-400 hover:hover:text-gray-500' />
-          </button>
+          <DeviceToggle changeDevice={changeDevice} deviceId={id || ''} />
           <VolumeSlider
             supports_volume={supports_volume}
             spotifyVolume={volume_percent}

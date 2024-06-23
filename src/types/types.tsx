@@ -148,3 +148,12 @@ export interface ArtistsStats {
   id: string;
   name: string;
 }
+
+export interface Device {
+  id: string;
+  is_active: boolean;
+  name: string;
+  type: string;
+  volume_percentage: number;
+  supports_volume: boolean;
+}
