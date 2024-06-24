@@ -15,7 +15,7 @@ import {
 
 interface Charts {
   recentlyPlayedStats: any;
-  playbackState: PlaybackState;
+  playbackState: PlaybackState | null;
 }
 
 const Charts: React.FC<Charts> = ({ playbackState }) => {

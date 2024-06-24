@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Alert from '../Alert';
 import { PlaybackState } from '../../types/types';
 import { EditPlaybackController } from '../../hooks/spotifyHooks/useEditPlayback';
-import AlbumLayout from './AlbumLayout/AlbumLayout';
-import DefaultLayout from './DefaultLayout/DefaultLayout';
-import Stats from './Stats/Stats';
+
+// Lazy loaded layouts
+const Stats = React.lazy(() => import('./Stats/Stats'));
+const AlbumLayout = React.lazy(() => import('./AlbumLayout/AlbumLayout'));
+const DefaultLayout = React.lazy(() => import('./DefaultLayout/DefaultLayout'));
 
 interface DynamicLayoutProps {
   displayError: boolean;
@@ -20,9 +22,9 @@ const renderLayout = ({
   editPlayback,
 }: {
   layoutSelection: string;
-  playbackState: any;
+  playbackState: PlaybackState | null;
   editPlayback: EditPlaybackController;
-}) => {
+}): JSX.Element => {
   if (layoutSelection === 'default') {
     return <DefaultLayout editPlayback={editPlayback} playbackState={playbackState} />;
   } else if (layoutSelection === 'album') {
@@ -30,6 +32,7 @@ const renderLayout = ({
   } else if (layoutSelection === 'stats') {
     return <Stats playbackState={playbackState} editPlayback={editPlayback} />;
   }
+  return <div></div>;
 };
 
 const DynamicLayout: React.FC<DynamicLayoutProps> = ({
@@ -47,7 +50,7 @@ const DynamicLayout: React.FC<DynamicLayoutProps> = ({
           promptLogin={true}
         />
       )}
-      {renderLayout({ layoutSelection, playbackState, editPlayback })}
+      <Suspense fallback={<div></div>}>{renderLayout({ layoutSelection, playbackState, editPlayback })}</Suspense>
     </div>
   );
 };

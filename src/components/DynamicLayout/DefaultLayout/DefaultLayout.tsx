@@ -7,7 +7,7 @@ import { PlaybackState } from '../../../types/types';
 
 interface DefaultLayoutProps {
   editPlayback: EditPlaybackController;
-  playbackState: PlaybackState;
+  playbackState: PlaybackState | null;
 }
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ editPlayback, playbackState }) => {
