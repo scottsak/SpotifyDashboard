@@ -15,7 +15,7 @@
   "chrome_url_overrides": {
     "newtab": "js/index.html"
   },
-  "permissions": ["bookmarks", "topSites", "favicon", "tabs", "identity", "storage"],
+  "permissions": ["topSites", "favicon", "identity", "storage"],
   "web_accessible_resources": [
     {
       "resources": ["_favicon/*", "spotifySDK.js"],

@@ -5,8 +5,7 @@ type AlertProps = {
   promptLogin: boolean;
 };
 
-const Alert: React.FC<AlertProps> = (props) => {
-  const { message, promptLogin } = props || {};
+const Alert: React.FC<AlertProps> = ({ message, promptLogin }) => {
   return (
     <div className='absolute left-1/2 -translate-x-1/2 top-3 bg-primary p-1 px-3 rounded-full w-max'>
       <p>
@@ -15,12 +14,14 @@ const Alert: React.FC<AlertProps> = (props) => {
           <span>
             {' '}
             Click&nbsp;
-            <span
+            <a
               className='font-bold hover:cursor-pointer underline-offset-1 underline'
-              onClick={() => chrome.tabs.create({ url: 'popup.html' })}
+              href='/popup.html'
+              target='_blank'
+              rel='noopener noreferrer'
             >
               here
-            </span>
+            </a>
             &nbsp;to login.
           </span>
         )}
