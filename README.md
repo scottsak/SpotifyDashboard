@@ -1,46 +1,37 @@
-# Getting Started with Create React App
+## Dashify
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h3 align="center"><img src="https://sts-random-values.s3.us-west-2.amazonaws.com/dashifyHome.png" width="600px" style="border-radius: 5px" alt="dashify"></h3>
+<p align="center">
+  <a href="https://chromewebstore.google.com/detail/spotify-dashboard/hnokfmokdpjdllpejcjgobfljlgheebp" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/try%20it%20out-download-green"></a>
+  <a href="https://buymeacoffee.com/dashify" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/buy_us_a-coffee-ff69b4.svg"></a>
+</p>
 
-## Available Scripts
+View your Spotify statistics in a easily accessible format while controlling your Spotify player
 
-In the project directory, you can run:
+#### What it does:
 
-### `npm start`
+Overwrites the new tab page to be a controller for Spotify. Login to spotify and view your top artists and songs, control music playback, and navigate to your top websites.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Running the App Locally
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Clone the repository and install its dependencies running:
 
-### `npm test`
+    $ npm install
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Using your own credentials
 
-### `npm run build`
+You will need to register your app and get your own credentials from the Spotify for Developers Dashboard.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To do so, go to [your Spotify for Developers Dashboard](https://beta.developer.spotify.com/dashboard) and create your application. In my own development process, I registered these Redirect URIs:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- http://localhost:3000 (needed for the implicit grant flow)
+- http://localhost:3000/callback
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Once you have created your app, load the `CLIENT_ID` and `CLIENT_SECRET` into a `.env` file.
 
-### `npm run eject`
+In order to run the app, open the folder, and run:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    $ cd SpotifyDashboard
+    $ npm run build
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Then, open `http://localhost:3000` in a browser.
