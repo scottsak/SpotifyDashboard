@@ -3,6 +3,7 @@ const HTMLPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const tailwindcss = require('tailwindcss');
+const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
@@ -59,6 +60,9 @@ module.exports = {
   },
   plugins: [
     new Dotenv(),
+    new webpack.DefinePlugin({
+      'process.env.CLIENT_SECRET': JSON.stringify(process.env.CLIENT_SECRET),
+    }),
     new CopyPlugin({
       patterns: [
         { from: 'manifest.json', to: '../manifest.json' },

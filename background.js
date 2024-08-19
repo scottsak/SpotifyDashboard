@@ -4,7 +4,6 @@ const SPOTIFY_AUTHROIZE_ENDPOINT = 'https://accounts.spotify.com/authorize';
 // TODO - find a way to securely store this
 // for some reason process.env is undefined here
 const CLIENT_ID = '0621ab6a5f7b4e62ae8658a363731520';
-const CLIENT_SECRET = 'd43bdb36bce64ca8932fcf97ef6c272a';
 const REDIRECT_URI = chrome.identity.getRedirectURL('oauth2');
 const SCOPES = [
   'user-read-currently-playing',
@@ -32,7 +31,7 @@ const exchangeCodeForToken = async (code) => {
     code: code,
     redirect_uri: REDIRECT_URI,
     client_id: CLIENT_ID,
-    client_secret: CLIENT_SECRET,
+    client_secret: process.env.CLIENT_SECRET,
   });
   const res = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
