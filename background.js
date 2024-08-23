@@ -10,7 +10,6 @@ const SCOPES = [
   'user-read-currently-playing',
   'user-read-playback-state',
   'user-modify-playback-state',
-  'streaming',
   'user-top-read',
   'user-read-recently-played',
 ];
@@ -19,11 +18,16 @@ const SCOPES_URL_PARAM = SCOPES.join(SPACE_DELIMITER);
 const AUTH_URL = `${SPOTIFY_AUTHROIZE_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPES_URL_PARAM}&response_type=code&show_dialog=true`;
 
 const setTokens = (accessToken, refreshToken) => {
-  chrome.storage.local.set({
-    accessToken,
-    ...(!!refreshToken && { refreshToken }),
-    cachedData: {}, // Clear out cache data when token changes
-  });
+  chrome.storage.local.set(
+    {
+      accessToken,
+      ...(!!refreshToken && { refreshToken }),
+      cachedData: {},
+    },
+    () => {
+      console.log('Tokens saved to storage.');
+    }
+  );
 };
 
 const exchangeCodeForToken = async (code) => {
@@ -49,15 +53,33 @@ const exchangeCodeForToken = async (code) => {
 
 const login = () => {
   chrome.identity.launchWebAuthFlow({ url: AUTH_URL, interactive: true }, (redirectUri) => {
-    const code = redirectUri?.split('?code=')[1];
-    if (code) {
-      exchangeCodeForToken(code)
-        .then(({ access_token, refresh_token }) => {
-          setTokens(access_token, refresh_token);
-        })
-        .catch((error) => {
-          console.error('Error exchanging code for token:', error);
-        });
+    if (chrome.runtime.lastError) {
+      console.error('Error during WebAuthFlow:', chrome.runtime.lastError);
+      return;
+    }
+
+    if (redirectUri) {
+      try {
+        const url = new URL(redirectUri);
+        const code = url.searchParams.get('code');
+        console.log('Authorization Code:', code);
+
+        if (code) {
+          exchangeCodeForToken(code)
+            .then(({ access_token, refresh_token }) => {
+              setTokens(access_token, refresh_token);
+            })
+            .catch((error) => {
+              console.error('Error exchanging code for token:', error);
+            });
+        } else {
+          console.error('Authorization code not found in redirect URI.');
+        }
+      } catch (error) {
+        console.error('Error parsing redirect URI:', error);
+      }
+    } else {
+      console.error('Redirect URI is undefined.');
     }
   });
 };
