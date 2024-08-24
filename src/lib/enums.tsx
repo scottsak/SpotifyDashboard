@@ -2,7 +2,7 @@ export const SCOPES: string[] = [
   'user-read-currently-playing',
   'user-read-playback-state',
   'user-modify-playback-state',
-  'streaming',
+  // 'streaming',
   'web-playback',
   'user-top-read',
   'user-read-recently-played',
