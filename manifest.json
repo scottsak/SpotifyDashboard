@@ -1,5 +1,5 @@
 {
-  "name": "Spotify Dashboard",
+  "name": "Dashify",
   "version": "1.0.0",
   "description": "View your Spotify statistics and control your Spotify player",
   "manifest_version": 3,
@@ -7,7 +7,7 @@
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqbXmUpw0Rmrc2Uc9GP1giEdeKsGqY+G84+sY84p559pY2upRePhV6jlWVNlu2qqp7uJtpMS+GRn0Nhx99CzHzrjQzuxGmF2oFKdRPkM8/6osD99wuZue5k8OEaL8lu0Ov7+uzZg/Rs23DWiUII5/cuQZj1FEcTnnxMEV5KXG4koKdxe8IV0hTrXFk8SahXtCCsDgNoNJ78BMECU2pSrrv1BcUU1G8CUduXE8Up3aRPE+XcytrWKJ3MgT1zZxH2sSugBACtFlB4dJnkpvSye4oWa+TgwQBPZMuz+vqEmrQ47yvUi6/AjmJ83Juk213nKO48tAwaV6atC5XnUcBgo6kwIDAQAB",
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Spotify Dashboard"
+    "default_title": "Dashify"
   },
   "background": {
     "service_worker": "background.js"
