@@ -62,7 +62,6 @@ const login = () => {
       try {
         const url = new URL(redirectUri);
         const code = url.searchParams.get('code');
-        console.log('Authorization Code:', code);
 
         if (code) {
           exchangeCodeForToken(code)
