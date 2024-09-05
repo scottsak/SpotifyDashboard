@@ -29,6 +29,8 @@ To do so, go to [your Spotify for Developers Dashboard](https://beta.developer.s
 
 Once you have created your app, load the `CLIENT_ID` and `CLIENT_SECRET` into a `.env` file.
 
+Then locate the `exampleBackground.js` and rename the file to `background.js` and add the CLIENT_ID and CLIENT_SECRET values in the variables provided.
+
 In order to run the app, open the folder, and run:
 
     $ cd SpotifyDashboard
