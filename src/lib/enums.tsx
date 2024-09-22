@@ -26,3 +26,12 @@ export const TIME_FRAME_STRINGS = {
   short_term: 'Past Month',
   long_term: 'Past Year',
 };
+
+export const FEATURED_CONTRIBUTORS: { name: string; url?: string }[] = [
+  { name: 'Scott Sakurai', url: 'https://scottsakurai.com' },
+  { name: 'Caleb Elliott', url: 'https://calebelliottcodes.com' },
+];
+
+export const BUY_COFFEE_LINK: string = 'https://buymeacoffee.com/dashify';
+
+export const APP_NAME: string = 'Dashify';
