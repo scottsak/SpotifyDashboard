@@ -11,11 +11,12 @@ type BodyProps = {
   editPlayback: EditPlaybackController;
   displayError: boolean;
   needsTokenRefresh: boolean;
+  loadingAfterEditPlayback: string;
 };
 
 const Body: React.FC<BodyProps> = (props) => {
   const { layoutSelection, setLayoutSelection } = useLayoutSelection();
-  const { playbackState, editPlayback, displayError, needsTokenRefresh } = props;
+  const { playbackState, editPlayback, displayError, needsTokenRefresh, loadingAfterEditPlayback } = props;
   return (
     <div className='flex h-full w-screen'>
       <div className='flex-none bg-black h-full'>
@@ -28,6 +29,7 @@ const Body: React.FC<BodyProps> = (props) => {
           editPlayback={editPlayback}
           playbackState={playbackState}
           layoutSelection={layoutSelection}
+          loadingAfterEditPlayback={loadingAfterEditPlayback}
         />
       </div>
       <div className='flex-none w-[300px] bg-darker h-full overflow-y-scroll'>

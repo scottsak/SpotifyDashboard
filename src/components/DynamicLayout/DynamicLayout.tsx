@@ -14,21 +14,24 @@ interface DynamicLayoutProps {
   editPlayback: EditPlaybackController;
   playbackState: PlaybackState | null;
   layoutSelection: string;
+  loadingAfterEditPlayback: string;
 }
 
 const renderLayout = ({
   layoutSelection,
   playbackState,
   editPlayback,
+  loadingAfterEditPlayback,
 }: {
   layoutSelection: string;
   playbackState: PlaybackState | null;
   editPlayback: EditPlaybackController;
+  loadingAfterEditPlayback: string;
 }): JSX.Element => {
   if (layoutSelection === 'default') {
     return <DefaultLayout editPlayback={editPlayback} playbackState={playbackState} />;
   } else if (layoutSelection === 'album') {
-    return <AlbumLayout playbackState={playbackState} />;
+    return <AlbumLayout playbackState={playbackState} loadingAfterEditPlayback={loadingAfterEditPlayback} />;
   } else if (layoutSelection === 'stats') {
     return <Stats playbackState={playbackState} editPlayback={editPlayback} />;
   }
@@ -40,6 +43,7 @@ const DynamicLayout: React.FC<DynamicLayoutProps> = ({
   needsTokenRefresh,
   layoutSelection,
   playbackState,
+  loadingAfterEditPlayback,
   editPlayback,
 }) => {
   return (
@@ -50,7 +54,9 @@ const DynamicLayout: React.FC<DynamicLayoutProps> = ({
           promptLogin={true}
         />
       )}
-      <Suspense fallback={<div></div>}>{renderLayout({ layoutSelection, playbackState, editPlayback })}</Suspense>
+      <Suspense fallback={<div></div>}>
+        {renderLayout({ layoutSelection, playbackState, editPlayback, loadingAfterEditPlayback })}
+      </Suspense>
     </div>
   );
 };

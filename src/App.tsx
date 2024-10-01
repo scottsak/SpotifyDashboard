@@ -17,6 +17,7 @@ function App() {
           editPlayback={editPlayback}
           displayError={displayError}
           needsTokenRefresh={needsTokenRefresh}
+          loadingAfterEditPlayback={loadingAfterEditPlayback}
         />
       </div>
       <div className='w-full flex justify-center h-1/7 border border-[#1b1b1b]'>

@@ -9,11 +9,10 @@ interface Stats {
   editPlayback: any;
 }
 
-const Stats: React.FC<Stats> = ({ playbackState, editPlayback }) => {
-  const { recentlyPlayedStats } = useRecentlyPlayedTracks();
+const Stats: React.FC<Stats> = ({ editPlayback }) => {
   return (
     <div className='flex flex-col justify-center h-screen'>
-      <Charts recentlyPlayedStats={recentlyPlayedStats} playbackState={playbackState} />
+      <Charts />
       <TopItems editPlayback={editPlayback} />
     </div>
   );

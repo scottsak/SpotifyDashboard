@@ -1,5 +1,6 @@
 import useRecentlyPlayedTracks from '../../../hooks/spotifyHooks/useRecentlyPlayedTracks';
-import { PlaybackState } from '../../../types/types';
+import ChartLoader from '../../SkeletonLoaders/ChartLoader';
+
 import React from 'react';
 import {
   BarChart,
@@ -13,37 +14,38 @@ import {
   TooltipProps,
 } from 'recharts';
 
-interface Charts {
-  recentlyPlayedStats: any;
-  playbackState: PlaybackState | null;
-}
+interface Charts {}
 
-const Charts: React.FC<Charts> = ({ playbackState }) => {
-  const { recentlyPlayedStats } = useRecentlyPlayedTracks();
+const Charts: React.FC<Charts> = () => {
+  const { recentlyPlayedStats, loading: statsLoading } = useRecentlyPlayedTracks();
   const handleBarClick = (data: any) => {
     window.open(data.uri, '_blank');
   };
   return (
     <div className='relative flex flex-col'>
       <h2 className='text-2xl mt-5'>Last 50 Songs</h2>
-      <ResponsiveContainer width='100%' height={350} className='pt-5'>
-        <BarChart
-          width={100}
-          height={100}
-          data={recentlyPlayedStats}
-          margin={{
-            right: 30,
-            bottom: 60,
-          }}
-        >
-          <CartesianGrid horizontal={false} vertical={false} strokeDasharray='4' />
-          <XAxis dataKey='name' angle={-45} textAnchor='end' className='pt-20' />
-          <YAxis />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: '#282828' }} />
-          <Legend content={CustomLegend} height={20} />
-          <Bar dataKey='time' fill='#1cd760' onClick={(data) => handleBarClick(data)} />
-        </BarChart>
-      </ResponsiveContainer>
+      {statsLoading ? (
+        <ChartLoader />
+      ) : (
+        <ResponsiveContainer width='100%' height={350} className='pt-5'>
+          <BarChart
+            width={100}
+            height={100}
+            data={recentlyPlayedStats}
+            margin={{
+              right: 30,
+              bottom: 60,
+            }}
+          >
+            <CartesianGrid horizontal={false} vertical={false} strokeDasharray='4' />
+            <XAxis dataKey='name' angle={-45} textAnchor='end' className='pt-20' />
+            <YAxis />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: '#282828' }} />
+            <Legend content={CustomLegend} height={20} />
+            <Bar dataKey='time' fill='#1cd760' onClick={(data) => handleBarClick(data)} />
+          </BarChart>
+        </ResponsiveContainer>
+      )}
     </div>
   );
 };
