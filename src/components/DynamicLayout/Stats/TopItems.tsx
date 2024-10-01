@@ -9,8 +9,8 @@ interface TopItems {
 }
 
 const TopItems: React.FC<TopItems> = ({}) => {
-  const { userTopTracks } = useUserTopTracks({});
-  const { userTopArtists } = useUserTopArtists();
+  const { userTopTracks, loading: loadingUserTracks } = useUserTopTracks({});
+  const { userTopArtists, loading: loadingUserArtists } = useUserTopArtists();
   const [topTracks, setTopTracks] = useState(false);
   const cardsToShow = topTracks ? userTopTracks : userTopArtists;
 
@@ -72,7 +72,7 @@ const TopItems: React.FC<TopItems> = ({}) => {
         </div>
       </div>
       <div className='relative flex flex-col'>
-        <RowOfCards cards={cards} />
+        <RowOfCards cards={cards} loadingUserTracks={loadingUserTracks} loadingUserArtists={loadingUserArtists} />
       </div>
     </div>
   );
