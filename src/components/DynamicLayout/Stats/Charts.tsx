@@ -22,8 +22,8 @@ const Charts: React.FC<Charts> = () => {
     window.open(data.uri, '_blank');
   };
   return (
-    <div className='relative flex flex-col'>
-      <h2 className='text-2xl mt-5'>Last 50 Songs</h2>
+    <div className='relative flex flex-col h-3/5 justify-around'>
+      <h2 className='text-3xl mt-5'>Last 50 Songs</h2>
       {statsLoading ? (
         <ChartLoader />
       ) : (
