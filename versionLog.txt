@@ -1,0 +1,8 @@
+1.0.1
+- everything
+1.0.2
+- bug fixes
+- skeleton loader for chart/album page
+1.0.3
+- stats page resize
+- version log

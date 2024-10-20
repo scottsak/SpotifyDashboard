@@ -34,7 +34,7 @@ const TopItems: React.FC<TopItems> = ({}) => {
   });
   const title = 'Your Top Items This Past Month:';
   return (
-    <div>
+    <div className='h-1/2 flex justify-center flex-col'>
       <div className='flex justify-between'>
         <h2 className='text-2xl mt-2 flex'>{title}</h2>
         <div className='mt-2 flex'>
