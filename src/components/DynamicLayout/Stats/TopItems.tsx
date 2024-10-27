@@ -36,7 +36,7 @@ const TopItems: React.FC<TopItems> = ({}) => {
   return (
     <div className='h-1/2 flex justify-center flex-col'>
       <div className='flex justify-between'>
-        <h2 className='text-2xl mt-2 flex'>{title}</h2>
+        <h2 className='text-2xl font-semibold mt-2 flex'>{title}</h2>
         <div className='mt-2 flex'>
           <ul
             className='flex flex-wrap -mb-px text-sm font-medium text-center'
