@@ -1,5 +1,6 @@
 import useRecentlyPlayedTracks from '../../../hooks/spotifyHooks/useRecentlyPlayedTracks';
 import ChartLoader from '../../SkeletonLoaders/ChartLoader';
+import { ChartBarIcon } from '@heroicons/react/24/solid';
 
 import React from 'react';
 import {
@@ -23,7 +24,9 @@ const Charts: React.FC<Charts> = () => {
   };
   return (
     <div className='relative flex flex-col h-3/5 justify-around'>
-      <h2 className='text-3xl mt-5'>Last 50 Songs</h2>
+      <h2 className='text-2xl font-semibold mt-5 flex'>
+        <ChartBarIcon className='w-8 mr-4 hover:cursor-pointer border-none' /> Last 50 Songs
+      </h2>
       {statsLoading ? (
         <ChartLoader />
       ) : (

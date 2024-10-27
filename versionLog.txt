@@ -2,7 +2,11 @@
 - everything
 1.0.2
 - bug fixes
-- skeleton loader for chart/album page
 1.0.3
+- bug fixes
+- skeleton loader for chart/album page
+1.0.4
 - stats page resize
 - version log
+1.0.5
+- font changes for stat page
